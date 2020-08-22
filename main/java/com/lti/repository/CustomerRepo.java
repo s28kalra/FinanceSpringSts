@@ -38,7 +38,21 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		}
 		return false;
 	}
-
+	public boolean isCustomerAvailable(String email) {
+		String sql="select count(c.id) from CustomerInfo c where c.email=:email ";
+		Query query=em.createQuery(sql);
+		query.setParameter("email", email);
+		return (Long) query.getSingleResult() ==1 ? true:false;
+	}
+	
+	public int findEmailAndPassword(String email,String password) {
+		String sql="select c.id from CustomerInfo c where c.customerEmail=:email  and c.customerPassword=:password";
+		Query query = em.createQuery(sql);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		return (int) query.getSingleResult();
+	}
+	
 	@Transactional
 	public int addNewCustomer(CustomerInfo customerInfo) {
 		try {

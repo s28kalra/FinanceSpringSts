@@ -11,6 +11,8 @@ import com.lti.model.Product;
 public interface CustomerRepositoryInterface {
 	
 	int addNewCustomer(CustomerInfo customerInfo);
+	int  findEmailAndPassword(String email,String password);
+	boolean isCustomerAvailable(String email);
 	boolean isNewCustomerUnique(String email,String mobile, String aadhar);
 	CustomerInfo updateCustomer(CustomerInfo customerInfo);
 	CustomerInfo findCustomerById(int customerId);

@@ -34,6 +34,14 @@ public class CustomerService implements CustomerServiceInterface {
 		return 0;
 	}
 
+	
+	public CustomerInfo loginCustomer(String email, String password) {
+		int customerId=customerRepo.findEmailAndPassword(email, password);
+		CustomerInfo customerInfo=customerRepo.findCustomerById(customerId);
+		return customerInfo;
+		
+		
+	} 
 	public CustomerInfo updateCustomer(CustomerInfo customerInfo) {
 		return customerRepo.updateCustomer(customerInfo);
 	}
@@ -182,5 +190,8 @@ public class CustomerService implements CustomerServiceInterface {
 
 		return false;
 	}
+
+
+	
 
 }

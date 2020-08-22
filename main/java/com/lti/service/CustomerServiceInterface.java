@@ -12,4 +12,5 @@ public interface CustomerServiceInterface {
 	boolean activateEmiCard(int customerId);
 	int buyAProductOnEmi(Checkout checkout);
 	boolean payMyEmi(int customerId);	
+	CustomerInfo loginCustomer(String customerEmail,String customerPassword);
 }
