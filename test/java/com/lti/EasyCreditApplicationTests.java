@@ -102,16 +102,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("Jully");
-		customerInfo.setCustomerLastName("");
-		customerInfo.setCustomerEmail("jully@lti.com");
-		customerInfo.setCustomerMobile("6876476546747");
-		customerInfo.setAccountNumber("0081382768322");
+		customerInfo.setCustomerFirstName("Sagar");
+		customerInfo.setCustomerLastName("Kalra");
+		customerInfo.setCustomerEmail("sagarkalra@lti.com");
+		customerInfo.setCustomerMobile("7988348317");
+		customerInfo.setAccountNumber("8888888888");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("215427849673");
-		customerInfo.setCustomerPassword("Jully@1234");
-		customerInfo.setDateOfBirth(LocalDate.of(1980, 12, 22));
-		customerInfo.setIfsc("CBUJ1234567");
+		customerInfo.setCustomerAadharCard("232323232323");
+		customerInfo.setCustomerPassword("Sagar@1234@1234");
+		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
+		customerInfo.setIfsc("CBIN8539734");
 		System.out.println(controller.addnewCustomer(customerInfo));
 	}
 	
