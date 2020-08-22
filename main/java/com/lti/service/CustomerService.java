@@ -14,6 +14,7 @@ import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
 import com.lti.repository.AdminRepositoryInterface;
 import com.lti.repository.CustomerRepositoryInterface;
+import com.lti.sms.SmsService;
 
 @Service
 public class CustomerService implements CustomerServiceInterface {
@@ -24,12 +25,17 @@ public class CustomerService implements CustomerServiceInterface {
 	@Autowired
 	AdminRepositoryInterface adminRepo;
 
+	@Autowired
+	SmsService smsService;
+	
 	public int addNewCustomer(CustomerInfo customerInfo) {
 		if (customerRepo.isNewCustomerUnique(customerInfo.getCustomerEmail(), customerInfo.getCustomerMobile(),
 				customerInfo.getCustomerAadharCard())) {
 			customerInfo.setRegistrationDate(LocalDate.now()); // always now
 			customerInfo.setIsValidCustomer(0); // initially 0
-			return customerRepo.addNewCustomer(customerInfo);
+			int id= customerRepo.addNewCustomer(customerInfo);
+//			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
+			return id;
 		}
 		return 0;
 	}

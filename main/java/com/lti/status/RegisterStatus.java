@@ -18,6 +18,10 @@ public class RegisterStatus {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	@Override
+	public String toString() {
+		return "RegisterStatus [status=" + status + ", message=" + message + "]";
+	}
 
 	
 }
