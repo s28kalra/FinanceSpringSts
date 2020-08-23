@@ -114,8 +114,8 @@ public class Controller {
 	public CustomerInfo updateCustomer(CustomerInfo customerInfo){
 		return customerService.updateCustomer(customerInfo);
 	}
-	
-	public CustomerInfo findCustomerById(int customerId){
+	@RequestMapping(path = "/viewProfile",method = RequestMethod.POST)
+	public CustomerInfo findCustomerById(@RequestBody int customerId){
 		return customerService.findCustomerById(customerId);
 	}
 	
