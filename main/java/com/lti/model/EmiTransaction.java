@@ -45,15 +45,17 @@ public class EmiTransaction {
 	private int noOfEmisLeft;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="card_number")
 	private EmiCard emiCard;
 	
 	@ManyToOne
+	//@JsonIgnore
 	@JoinColumn(name="productid")
 	private Product product;
 		
 	@ManyToOne
-	//@JsonIgnore
+	@JsonIgnore
 	@JoinColumn(name="customerid")
 	private CustomerInfo customerInfo;
 	
