@@ -15,5 +15,10 @@ public class LoginStatus extends RegisterStatus{
 	public void setCustomerFirstName(String customerFirstName) {
 		this.customerFirstName = customerFirstName;
 	}
+	@Override
+	public String toString() {
+		return "LoginStatus [getStatus()=" + getStatus() + ", getMessage()=" + getMessage() + "]";
+	}
+	
 	
 }

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.lti.controller.Controller;
+import com.lti.dto.LoginDto;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
@@ -102,16 +103,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("Sagar");
+		customerInfo.setCustomerFirstName("John");
 		customerInfo.setCustomerLastName("Kalra");
-		customerInfo.setCustomerEmail("sagarkalra@lti.com");
-		customerInfo.setCustomerMobile("7988348317");
-		customerInfo.setAccountNumber("8888888888");
+		customerInfo.setCustomerEmail("johnkalra@lti.com");
+		customerInfo.setCustomerMobile("8574965689");
+		customerInfo.setAccountNumber("7777777777");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("232323232323");
-		customerInfo.setCustomerPassword("Sagar@1234@1234");
+		customerInfo.setCustomerAadharCard("232323232332");
+		customerInfo.setCustomerPassword("John@1234@1234");
 		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
-		customerInfo.setIfsc("CBIN8539734");
+		customerInfo.setIfsc("CBIN8539794");
 		System.out.println(controller.addnewCustomer(customerInfo));
 	}
 	
@@ -204,6 +205,13 @@ class EasyCreditApplicationTests {
 	}
 	
 	
-	
+	@Test
+	public void loginCustomer() {
+		LoginDto loginDto=new LoginDto();
+		loginDto.setCustomerEmail("johnkalra@lti.com");
+		loginDto.setCustomerPassword("John@1234@1234");
+		System.out.println(controller.loginCustomer(loginDto));
+		
+	}
 	
 }

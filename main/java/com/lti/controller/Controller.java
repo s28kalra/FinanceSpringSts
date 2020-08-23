@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lti.dto.LoginDto;
 import com.lti.enums.StatusType;
+import com.lti.exception.CustomerServiceException;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
@@ -18,6 +20,7 @@ import com.lti.model.EmiCard;
 import com.lti.model.Product;
 import com.lti.service.AdminServiceInterface;
 import com.lti.service.CustomerServiceInterface;
+import com.lti.status.LoginStatus;
 import com.lti.status.RegisterStatus;
 
 @RestController
@@ -85,6 +88,26 @@ public class Controller {
 			registerStatus.setMessage("Sorry Try with Different Details");
 		}
 		return registerStatus;		
+	}
+	@RequestMapping(path="/login",method = RequestMethod.POST)
+	public LoginStatus loginCustomer(@RequestBody LoginDto loginDto) {
+		try {
+			
+			CustomerInfo customerInfo=customerService.loginCustomer(loginDto.getCustomerEmail(), loginDto.getCustomerPassword());
+			LoginStatus loginStatus=new LoginStatus();
+			loginStatus.setStatus(StatusType.SUCCESS);
+			loginStatus.setMessage("Login successful");
+			loginStatus.setCustomerId(customerInfo.getCustomerId());
+			loginStatus.setCustomerFirstName(customerInfo.getCustomerFirstName());
+			return loginStatus;
+		}
+		catch (CustomerServiceException e) {
+			LoginStatus loginStatus=new LoginStatus();
+			loginStatus.setStatus(StatusType.FAILURE);
+			loginStatus.setMessage(e.getMessage());
+			return loginStatus;
+			
+		}
 	}
 
 	public CustomerInfo updateCustomer(CustomerInfo customerInfo){

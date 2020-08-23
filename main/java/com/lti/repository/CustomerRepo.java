@@ -38,15 +38,20 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		}
 		return false;
 	}
-	public boolean isCustomerAvailable(String email) {
-		String sql="select count(c.id) from CustomerInfo c where c.email=:email ";
+	public CustomerInfo isCustomerAvailable(String email) {
+		String sql="select c from CustomerInfo c where c.customerEmail=:email ";
 		Query query=em.createQuery(sql);
 		query.setParameter("email", email);
-		return (Long) query.getSingleResult() ==1 ? true:false;
+		List<CustomerInfo> list=query.getResultList();
+		if(list.size()>0) {
+			return list.get(0);
+		}
+		return null;
+		
 	}
 	
 	public int findEmailAndPassword(String email,String password) {
-		String sql="select c.id from CustomerInfo c where c.customerEmail=:email  and c.customerPassword=:password";
+		String sql="select c.customerId from CustomerInfo c where c.customerEmail=:email  and c.customerPassword=:password";
 		Query query = em.createQuery(sql);
 		query.setParameter("email", email);
 		query.setParameter("password", password);

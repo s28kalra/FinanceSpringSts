@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lti.exception.CustomerServiceException;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiCard;
@@ -27,27 +29,31 @@ public class CustomerService implements CustomerServiceInterface {
 
 	@Autowired
 	SmsService smsService;
-	
+
 	public int addNewCustomer(CustomerInfo customerInfo) {
 		if (customerRepo.isNewCustomerUnique(customerInfo.getCustomerEmail(), customerInfo.getCustomerMobile(),
 				customerInfo.getCustomerAadharCard())) {
 			customerInfo.setRegistrationDate(LocalDate.now()); // always now
 			customerInfo.setIsValidCustomer(0); // initially 0
-			int id= customerRepo.addNewCustomer(customerInfo);
+			int id = customerRepo.addNewCustomer(customerInfo);
 //			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
 			return id;
 		}
 		return 0;
 	}
 
-	
 	public CustomerInfo loginCustomer(String email, String password) {
-		int customerId=customerRepo.findEmailAndPassword(email, password);
-		CustomerInfo customerInfo=customerRepo.findCustomerById(customerId);
+
+		CustomerInfo customerInfo = customerRepo.isCustomerAvailable(email);
+		if (customerInfo == null) {
+			throw new CustomerServiceException("Customer not registered");
+		} else if (!customerInfo.getCustomerPassword().equals(password)) {
+			throw new CustomerServiceException("Incorrect email or password");
+		}
 		return customerInfo;
-		
-		
-	} 
+
+	}
+
 	public CustomerInfo updateCustomer(CustomerInfo customerInfo) {
 		return customerRepo.updateCustomer(customerInfo);
 	}
@@ -179,7 +185,7 @@ public class CustomerService implements CustomerServiceInterface {
 				}
 
 				int payingEmis = (int) (emiCard.getAmountToBePaid() / sum);
-				System.out.println("Paying emis "+payingEmis);
+				System.out.println("Paying emis " + payingEmis);
 				for (EmiTransaction transaction : transactions) {
 					transaction.setNoOfEmisLeft(transaction.getNoOfEmisLeft() - payingEmis);
 					if (transaction.getNoOfEmisLeft() == 0) {
@@ -188,7 +194,7 @@ public class CustomerService implements CustomerServiceInterface {
 					}
 
 				}
-				emiCard.setCardBalance(emiCard.getCardBalance() + sum*payingEmis);
+				emiCard.setCardBalance(emiCard.getCardBalance() + sum * payingEmis);
 				emiCard.setAmountToBePaid(0);
 				return true;
 			}
@@ -196,8 +202,5 @@ public class CustomerService implements CustomerServiceInterface {
 
 		return false;
 	}
-
-
-	
 
 }
