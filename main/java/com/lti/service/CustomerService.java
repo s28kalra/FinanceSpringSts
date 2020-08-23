@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.exception.CustomerServiceException;
+import com.lti.exception.ViewCardTransactionsException;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiCard;
@@ -204,10 +205,22 @@ public class CustomerService implements CustomerServiceInterface {
 	}
 
 	@Override
+
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId) {
 		List<EmiTransaction> transactions=customerRepo.getListOfTransactionsOfCustomer(customerId);
 		return transactions;
-		
+	}
+
+	public List<EmiTransaction> viewCardTransactions(int customerId) {
+		EmiCard emiCard = customerRepo.findCustomerById(customerId).getEmiCard();
+		if (emiCard == null) {
+			throw new ViewCardTransactionsException("You Do not have Any EmiCard");
+		} else if (emiCard.getCardStatus() == false) {
+			throw new ViewCardTransactionsException("Your Card Is not Active Please Active It");
+		} else {
+			return customerRepo.getListOfTransactionsOfEmiCard(emiCard.getCardNumber());
+		}
+
 	}
 
 }
