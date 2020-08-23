@@ -113,7 +113,7 @@ class EasyCreditApplicationTests {
 		customerInfo.setCustomerPassword("John@1234@1234");
 		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
 		customerInfo.setIfsc("CBIN8539794");
-		System.out.println(controller.addnewCustomer(customerInfo));
+		System.out.println(controller.addNewCustomer(customerInfo));
 	}
 	
 
@@ -219,6 +219,11 @@ class EasyCreditApplicationTests {
 		loginDto.setCustomerPassword("John@1234@1234");
 		System.out.println(controller.loginCustomer(loginDto));
 		
+	}
+	
+	@Test
+	public void viewCardTransactions(){
+		System.out.println(controller.viewCardTransactions(10187));
 	}
 	
 }
