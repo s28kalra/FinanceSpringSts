@@ -189,4 +189,11 @@ public class CustomerService implements CustomerServiceInterface {
 		return false;
 	}
 
+	@Override
+	public List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId) {
+		List<EmiTransaction> transactions=customerRepo.getListOfTransactionsOfCustomer(customerId);
+		return transactions;
+		
+	}
+
 }

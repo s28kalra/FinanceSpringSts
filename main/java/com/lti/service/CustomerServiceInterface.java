@@ -1,5 +1,7 @@
 package com.lti.service;
 
+import java.util.List;
+
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiTransaction;
@@ -12,4 +14,5 @@ public interface CustomerServiceInterface {
 	boolean activateEmiCard(int customerId);
 	int buyAProductOnEmi(Checkout checkout);
 	boolean payMyEmi(int customerId);	
+	List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId);
 }

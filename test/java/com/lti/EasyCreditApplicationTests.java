@@ -14,6 +14,7 @@ import com.lti.controller.Controller;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
+import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
 
 import net.bytebuddy.asm.Advice.Local;
@@ -62,7 +63,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
-		System.out.println(controller.validateCustomerAndIssueEmiCard(10187));
+		System.out.println(controller.validateCustomerAndIssueEmiCard(10100));
 	}
 	
 	@Test
@@ -84,7 +85,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateExistingCustomerEmiCard(){
-		System.out.println(controller.activateExistingCustomerEmiCard(10107));
+		System.out.println(controller.activateExistingCustomerEmiCard(10100));
 	}
 	
 	@Test
@@ -102,14 +103,14 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("Sagar");
-		customerInfo.setCustomerLastName("Kalra");
-		customerInfo.setCustomerEmail("sagarkalra@lti.com");
+		customerInfo.setCustomerFirstName("dev");
+		customerInfo.setCustomerLastName("patel");
+		customerInfo.setCustomerEmail("devpatel@lti.com");
 		customerInfo.setCustomerMobile("7988348317");
 		customerInfo.setAccountNumber("8888888888");
 		customerInfo.setCardType("Gold");
 		customerInfo.setCustomerAadharCard("232323232323");
-		customerInfo.setCustomerPassword("Sagar@1234@1234");
+		customerInfo.setCustomerPassword("dev@1234@1234");
 		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
 		customerInfo.setIfsc("CBIN8539734");
 		System.out.println(controller.addnewCustomer(customerInfo));
@@ -136,7 +137,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateEmiCard() {
-		System.out.println(controller.activateEmiCard(10187));
+		System.out.println(controller.activateEmiCard(10100));
 	}
 
 	@Test
@@ -147,16 +148,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
-		checkout.setCustomerId(10187);
-		checkout.setProductId(7201); 
-		checkout.setProductQuantity(2);
+		checkout.setCustomerId(10100);
+		checkout.setProductId(5251); 
+		checkout.setProductQuantity(1);
 		checkout.setEmiTenure(8);
 		checkout.setShippingAddress("Kaithal");
-		checkout.setCardHolderName("Jully");
-		checkout.setCardNumber("3003400430012634");
+		checkout.setCardHolderName("dev");
+		checkout.setCardNumber("3003400430012551");
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
-		checkout.setCvv(726);
+		checkout.setCvv(845);
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
@@ -210,6 +211,13 @@ class EasyCreditApplicationTests {
 			System.out.println(p);
 	}
 	
+	@Test
+	public void getListOfTransactionsOfCustomer() {
+		List<EmiTransaction> transactions=controller.getListOfTransactionsOfCustomer(10100);
+		for (EmiTransaction emiTransaction : transactions) {
+			System.out.println(emiTransaction);
+		}
+	}
 	
 	
 	

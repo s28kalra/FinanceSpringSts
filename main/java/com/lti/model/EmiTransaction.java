@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class EmiTransaction {
 	@Id
@@ -51,6 +53,7 @@ public class EmiTransaction {
 	private Product product;
 		
 	@ManyToOne
+	//@JsonIgnore
 	@JoinColumn(name="customerid")
 	private CustomerInfo customerInfo;
 	

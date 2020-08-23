@@ -16,6 +16,7 @@ import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiCard;
+import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
 import com.lti.service.AdminServiceInterface;
 import com.lti.service.CustomerServiceInterface;
@@ -124,11 +125,14 @@ public class Controller {
 		return adminService.calculateProfitBetween(from, to);
 	}
 	
-	//@CrossOrigin(origins ="http://localhost:4200")
 	@RequestMapping(path = "/getAllProducts",method = RequestMethod.GET)
 		public List<Product> getAllProducts(){
 			return adminService.getAllProducts();
 	}
 	
-	
+	@RequestMapping(path="/getListOfTransactionsOfCustomer",method =RequestMethod.POST)
+	public List<EmiTransaction> getListOfTransactionsOfCustomer(@RequestBody int customerId){
+		return customerService.getListOfTransactionsOfCustomer(customerId);
+	}
 }
+
