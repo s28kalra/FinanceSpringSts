@@ -137,4 +137,9 @@ public class AdminService implements AdminServiceInterface {
 		return adminRepo.calculateJoiningFeesBetween(from, to)+ adminRepo.calculateProcessingFeesBetween(from, to);
 	}
 
+	@Override
+	public List<Product> getAllProducts() {
+		return adminRepo.getAllProducts();
+	}
+
 }

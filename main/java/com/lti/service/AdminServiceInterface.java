@@ -25,6 +25,6 @@ public interface AdminServiceInterface {
 	double calculateJoiningFeesBetween(LocalDate from, LocalDate to);
 	double calculateProcessingFeesBetween(LocalDate from, LocalDate to);
 	double calculateProfitBetween(LocalDate from, LocalDate to);
-	
+	List<Product> getAllProducts();
 	
 }
