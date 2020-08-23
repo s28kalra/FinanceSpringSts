@@ -54,10 +54,10 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Iphone XS");
-		product.setProductImageSource("assets/iphoneXS.jpg");
-		product.setProductPrice(60000);
-		product.setProductDescription("5.8-inch Super Retina display (OLED) with HDR1, IP68 dust and water resistant (maximum depth of 2 metres up to 30 minutes)2");
+		product.setProductName("Dell Inspiron I5 5575");
+		product.setProductImageSource("assets/dellInspironI5_5575.JPG");
+		product.setProductPrice(52000);
+		product.setProductDescription("Available in Variety. Laptops W/ 10th Gen Intel® Core™ Processor. Shop Now! Customize your Tech. Laptops W/ 10th Gen Intel® Core™ Processor. Buy Now! Free MS Office Home. ");
 		System.out.println(controller.addProduct(product));
 	}
 	
@@ -202,6 +202,13 @@ class EasyCreditApplicationTests {
 		LocalDate from = LocalDate.now().minusDays(x);
 		LocalDate to = LocalDate.now();
 		System.out.println(controller.calculateProfitBetween(from, to));
+	}
+	
+	@Test
+	public void getAllProducts(){
+		List<Product> allProducts= controller.getAllProducts();
+		for(Product p: allProducts)
+			System.out.println(p);
 	}
 	
 	
