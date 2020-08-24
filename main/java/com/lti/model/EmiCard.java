@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class EmiCard {
 	@Id
@@ -53,6 +55,7 @@ public class EmiCard {
 
 	@OneToOne
 	@JoinColumn(name="customerid")
+	@JsonIgnore
 	private CustomerInfo customerInfo;
 	
 	@OneToMany(mappedBy="emiCard",cascade=CascadeType.ALL)
