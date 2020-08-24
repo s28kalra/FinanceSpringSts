@@ -30,9 +30,9 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewAdmin() {
 		Admin admin= new Admin();
-		admin.setAdminId(10670576);
-		admin.setAdminName("Sagar");
-		admin.setAdminPassword("Sagar@1234");
+		admin.setAdminId(10670454);
+		admin.setAdminName("Shivam");
+		admin.setAdminPassword("Shivam@1234");
 		System.out.println(controller.addNewAdmin(admin));
 	}
 	
@@ -41,7 +41,7 @@ class EasyCreditApplicationTests {
 		Admin admin= new Admin();
 		admin.setAdminId(10670576);
 		admin.setAdminName("Sagar Kalra");
-		admin.setAdminPassword("Sagar@1234");
+		admin.setAdminPassword("Sagar@123");
 //		System.out.println(adminRepo.updateAdmin(admin));
 		System.out.println(controller.updateAdmin(admin));
 	}
@@ -103,16 +103,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("John");
-		customerInfo.setCustomerLastName("Kalra");
-		customerInfo.setCustomerEmail("johnkalra@lti.com");
-		customerInfo.setCustomerMobile("8574965689");
-		customerInfo.setAccountNumber("7777777777");
+		customerInfo.setCustomerFirstName("Rakesh");
+		customerInfo.setCustomerLastName("Sharma");
+		customerInfo.setCustomerEmail("rakesh@lti.com");
+		customerInfo.setCustomerMobile("9860912465");
+		customerInfo.setAccountNumber("1212121212");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("232323232332");
-		customerInfo.setCustomerPassword("John@1234@1234");
-		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
-		customerInfo.setIfsc("CBIN8539794");
+		customerInfo.setCustomerAadharCard("982845129534");
+		customerInfo.setCustomerPassword("rakeshji@123");
+		customerInfo.setDateOfBirth(LocalDate.of(1990, 03, 23));
+		customerInfo.setIfsc("CBIN69203401");
 		System.out.println(controller.addnewCustomer(customerInfo));
 	}
 	
@@ -122,7 +122,7 @@ class EasyCreditApplicationTests {
 		CustomerInfo customerInfo = new CustomerInfo();
 		customerInfo.setCustomerId(10137);
 		customerInfo.setCustomerFirstName("Jackson");
-		customerInfo.setCustomerLastName("");
+		customerInfo.setCustomerLastName("Action");
 		customerInfo.setCustomerEmail("Jackson@lti.com");
 		customerInfo.setCustomerMobile("71537678746");
 		customerInfo.setAccountNumber("6487687863863812");
