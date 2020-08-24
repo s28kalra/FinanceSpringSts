@@ -108,10 +108,10 @@ class EasyCreditApplicationTests {
 		customerInfo.setCustomerFirstName("dev");
 		customerInfo.setCustomerLastName("patel");
 		customerInfo.setCustomerEmail("devpatel@lti.com");
-		customerInfo.setCustomerMobile("7988348317");
+		customerInfo.setCustomerMobile("7988348363");
 		customerInfo.setAccountNumber("8888888888");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("232323232323");
+		customerInfo.setCustomerAadharCard("232323232312");
 		customerInfo.setCustomerPassword("dev@1234@1234");
 		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
 		customerInfo.setIfsc("CBIN8539794");
