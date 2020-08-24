@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +51,8 @@ public class Controller {
 		return adminService.updateAdmin(admin);
 	}
 
-	public Admin findAdminById(int adminId) {
+	@RequestMapping(path="/viewAdminProfile", method = RequestMethod.POST)
+	public Admin findAdminById(@RequestBody int adminId) {
 		return adminService.findAdminById(adminId);
 	}
 
@@ -61,7 +60,8 @@ public class Controller {
 		return adminService.addProduct(product);
 	}
 
-	public EmiCard validateCustomerAndIssueEmiCard(int customerId) {
+	@RequestMapping(path="/validateCustomerAndIssueEmiCard" , method = RequestMethod.POST)
+	public EmiCard validateCustomerAndIssueEmiCard(@RequestBody int customerId) {
 		return adminService.validateCustomerAndIssueEmiCard(customerId);
 	}
 
@@ -73,11 +73,13 @@ public class Controller {
 		return adminService.activateExistingCustomerEmiCard(customerId);
 	}
 
+	@RequestMapping(path="/viewAllCustomers", method = RequestMethod.GET)
 	public List<CustomerInfo> viewAllCustomers() {
 		return adminService.viewAllCustomers();
 	}
 
-	public CustomerInfo rejectACustomer(int customerId) {
+	@PostMapping("/rejectACustomer")
+	public CustomerInfo rejectACustomer(@RequestBody int customerId) {
 		return adminService.rejectACustomer(customerId);
 	}
 
