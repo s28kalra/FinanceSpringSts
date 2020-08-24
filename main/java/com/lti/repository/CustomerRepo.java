@@ -121,7 +121,7 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId) {
 		try {
-			String sql = "select t from EmiTransaction t where t.CustomerInfo.customerId=:customerId";
+			String sql = "select t from EmiTransaction t where t.customerInfo.customerId=:customerId";
 			Query query = em.createQuery(sql);
 			query.setParameter("customerId", customerId);
 			return query.getResultList();
@@ -143,5 +143,6 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		}
 		return null;
 	}
+	
 
 }
