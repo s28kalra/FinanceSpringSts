@@ -19,6 +19,10 @@ public class AdminLoginStatus extends RegisterStatus{
 	public void setAdminName(String adminName) {
 		this.adminName = adminName;
 	}
+	@Override
+	public String toString() {
+		return "AdminLoginStatus [adminId=" + adminId + ", adminName=" + adminName + "]";
+	}
 	
 	
 
