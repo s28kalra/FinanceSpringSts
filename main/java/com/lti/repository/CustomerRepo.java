@@ -131,6 +131,7 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		return null;
 	}
 
+
 	public List<EmiTransaction> getListOfTransactionsOfEmiCardPayPending(int cardNumber) {
 		try {
 			String sql = "select t from EmiTransaction t where t.emiCard.cardNumber=:cardNumber and t.noOfEmisLeft>:none";

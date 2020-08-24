@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lti.dto.EmiCardDto;
 import com.lti.exception.CustomerServiceException;
 import com.lti.exception.ViewCardTransactionsException;
 import com.lti.model.Checkout;
@@ -209,7 +210,7 @@ public class CustomerService implements CustomerServiceInterface {
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId) {
 		List<EmiTransaction> transactions=customerRepo.getListOfTransactionsOfCustomer(customerId);
 		return transactions;
-	}
+	}	
 
 	public List<EmiTransaction> viewCardTransactions(int customerId) {
 		EmiCard emiCard = customerRepo.findCustomerById(customerId).getEmiCard();

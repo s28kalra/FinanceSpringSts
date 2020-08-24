@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.lti.controller.Controller;
+import com.lti.dto.EmiCardDto;
 import com.lti.dto.LoginDto;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
@@ -55,10 +56,10 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Dell Inspiron I5 5575");
-		product.setProductImageSource("assets/dellInspironI5_5575.JPG");
-		product.setProductPrice(52000);
-		product.setProductDescription("Available in Variety. Laptops W/ 10th Gen Intel® Core™ Processor. Shop Now! Customize your Tech. Laptops W/ 10th Gen Intel® Core™ Processor. Buy Now! Free MS Office Home. ");
+		product.setProductName("Apple Airpods");
+		product.setProductImageSource("assets/airpods.JPG");
+		product.setProductPrice(22000);
+		product.setProductDescription("Choose from wide range of colours");
 		System.out.println(controller.addProduct(product));
 	}
 	
@@ -100,6 +101,11 @@ class EasyCreditApplicationTests {
 	public void trySomething(){
 		
 	}	
+	
+	@Test
+	public void getCardDetails() {
+		System.out.println(controller.getCardDetails(10103));
+	}
 
 	@Test
 	public void addNewCustomer() {
@@ -150,10 +156,10 @@ class EasyCreditApplicationTests {
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
 		checkout.setCustomerId(10103);
-		checkout.setProductId(5200); 
-		checkout.setProductQuantity(1);
+		checkout.setProductId(5251); 
+		checkout.setProductQuantity(2);
 		checkout.setEmiTenure(8);
-		checkout.setShippingAddress("New Delhi");
+		checkout.setShippingAddress("Dehradun");
 		checkout.setCardHolderName("Ram Kumar");
 		checkout.setCardNumber("3003400430012551");
 		checkout.setExpiryMonth(8);
