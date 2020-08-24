@@ -36,8 +36,9 @@ public class CustomerService implements CustomerServiceInterface {
 				customerInfo.getCustomerAadharCard())) {
 			customerInfo.setRegistrationDate(LocalDate.now()); // always now
 			customerInfo.setIsValidCustomer(0); // initially 0
-			int id = customerRepo.addNewCustomer(customerInfo);
-//			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
+			int id=0;
+//			if(smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile()))
+				id = customerRepo.addNewCustomer(customerInfo);
 			return id;
 		}
 		return 0;
