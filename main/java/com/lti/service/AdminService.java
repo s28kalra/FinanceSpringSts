@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lti.exception.AdminException;
+import com.lti.exception.CustomerServiceException;
 import com.lti.model.Admin;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiCard;
@@ -140,6 +142,17 @@ public class AdminService implements AdminServiceInterface {
 	@Override
 	public List<Product> getAllProducts() {
 		return adminRepo.getAllProducts();
+	}
+
+	@Override
+	public Admin loginAdmin(int adminId, String adminPassword) {
+		Admin admin = adminRepo.findAdminById(adminId);
+		if (admin == null) {
+			throw new AdminException("Admin not registered");
+		} else if (!admin.getAdminPassword().equals(adminPassword)) {
+			throw new CustomerServiceException("Incorrect email or password");
+		}
+		return admin;
 	}
 
 }

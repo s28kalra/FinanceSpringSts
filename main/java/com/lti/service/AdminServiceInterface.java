@@ -26,5 +26,5 @@ public interface AdminServiceInterface {
 	double calculateProcessingFeesBetween(LocalDate from, LocalDate to);
 	double calculateProfitBetween(LocalDate from, LocalDate to);
 	List<Product> getAllProducts();
-	
+	Admin loginAdmin(int adminId, String adminPassword);
 }

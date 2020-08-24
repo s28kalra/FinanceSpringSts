@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lti.dto.AdminLoginDto;
 import com.lti.dto.EmiTransactionDto;
 import com.lti.dto.LoginDto;
 import com.lti.enums.StatusType;
+import com.lti.exception.AdminException;
 import com.lti.exception.CustomerServiceException;
 import com.lti.exception.ViewCardTransactionsException;
 import com.lti.model.Admin;
@@ -28,6 +30,7 @@ import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
 import com.lti.service.AdminServiceInterface;
 import com.lti.service.CustomerServiceInterface;
+import com.lti.status.AdminLoginStatus;
 import com.lti.status.LoginStatus;
 import com.lti.status.RegisterStatus;
 import com.lti.status.ViewCardTransactionsStatus;
@@ -126,8 +129,8 @@ public class Controller {
 		return customerService.updateCustomer(customerInfo);
 	}
 
-	@RequestMapping(path = "/viewProfile",method = RequestMethod.POST)
-	public CustomerInfo findCustomerById(@RequestBody int customerId){
+	@RequestMapping(path = "/viewProfile", method = RequestMethod.POST)
+	public CustomerInfo findCustomerById(@RequestBody int customerId) {
 
 		return customerService.findCustomerById(customerId);
 	}
@@ -160,17 +163,15 @@ public class Controller {
 		return adminService.calculateProfitBetween(from, to);
 	}
 
-	
-	@RequestMapping(path = "/getAllProducts",method = RequestMethod.GET)
-		public List<Product> getAllProducts(){
-			return adminService.getAllProducts();
-	}
-	
-	@RequestMapping(path="/getListOfTransactionsOfCustomer",method =RequestMethod.POST)
-	public List<EmiTransaction> getListOfTransactionsOfCustomer(@RequestBody int customerId){
-		return customerService.getListOfTransactionsOfCustomer(customerId);
+	@RequestMapping(path = "/getAllProducts", method = RequestMethod.GET)
+	public List<Product> getAllProducts() {
+		return adminService.getAllProducts();
 	}
 
+	@RequestMapping(path = "/getListOfTransactionsOfCustomer", method = RequestMethod.POST)
+	public List<EmiTransaction> getListOfTransactionsOfCustomer(@RequestBody int customerId) {
+		return customerService.getListOfTransactionsOfCustomer(customerId);
+	}
 
 	@RequestMapping(path = "/viewCardTransactions", method = RequestMethod.POST)
 	public ViewCardTransactionsStatus viewCardTransactions(@RequestBody int customerId) {
@@ -179,15 +180,15 @@ public class Controller {
 			List<EmiTransaction> transactions = customerService.viewCardTransactions(customerId);
 			status.setStatus(StatusType.SUCCESS);
 			status.setMessage("List Reterived");
-			List<EmiTransactionDto> list= new ArrayList<>();
-			for(EmiTransaction trans: transactions) {
-				EmiTransactionDto dto=new EmiTransactionDto();
+			List<EmiTransactionDto> list = new ArrayList<>();
+			for (EmiTransaction trans : transactions) {
+				EmiTransactionDto dto = new EmiTransactionDto();
 				BeanUtils.copyProperties(trans, dto);
 				dto.setProductName(trans.getProduct().getProductName());
 				list.add(dto);
 			}
 			status.setTransactions(list);
-			
+
 		} catch (ViewCardTransactionsException e) {
 			status.setStatus(StatusType.FAILURE);
 			status.setMessage(e.getMessage());
@@ -196,6 +197,29 @@ public class Controller {
 		return status;
 	}
 
+	@RequestMapping(path = "/loginAdmin", method = RequestMethod.POST)
+	public AdminLoginStatus loginAdmin(@RequestBody AdminLoginDto adminLoginDto) {
+		AdminLoginStatus adminLoginStatus = new AdminLoginStatus();
+		int adminId = 0;
+		try {
+			adminId = Integer.valueOf(adminLoginDto.getAdminId());
+		} catch (NumberFormatException e) {
+			adminLoginStatus.setStatus(StatusType.FAILURE);
+			adminLoginStatus.setMessage("Invalid AdminId");
+			return adminLoginStatus;
+		}
+		try {
+			Admin admin = adminService.loginAdmin(adminId, adminLoginDto.getAdminPassword());
+			adminLoginStatus.setStatus(StatusType.SUCCESS);
+			adminLoginStatus.setMessage("Login successful");
+			adminLoginStatus.setAdminId(admin.getAdminId());
+			adminLoginStatus.setAdminName(admin.getAdminName());
+			return adminLoginStatus;
+		} catch (AdminException e) {
+			adminLoginStatus.setStatus(StatusType.FAILURE);
+			adminLoginStatus.setMessage(e.getMessage());
+			return adminLoginStatus;
+		}
+	}
 
 }
-
