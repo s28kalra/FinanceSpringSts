@@ -64,7 +64,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
-		System.out.println(controller.validateCustomerAndIssueEmiCard(10100));
+		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateEmiCard() {
-		System.out.println(controller.activateEmiCard(10100));
+		System.out.println(controller.activateEmiCard(10105));
 	}
 
 	@Test
@@ -149,16 +149,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
-		checkout.setCustomerId(10100);
-		checkout.setProductId(5251); 
+		checkout.setCustomerId(10103);
+		checkout.setProductId(5200); 
 		checkout.setProductQuantity(1);
 		checkout.setEmiTenure(8);
-		checkout.setShippingAddress("Kaithal");
-		checkout.setCardHolderName("dev");
+		checkout.setShippingAddress("New Delhi");
+		checkout.setCardHolderName("Ram Kumar");
 		checkout.setCardNumber("3003400430012551");
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
-		checkout.setCvv(845);
+		checkout.setCvv(584);
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
@@ -170,7 +170,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void payMyEmi() {
-		System.out.println(controller.payMyEmi(10187));
+		System.out.println(controller.payMyEmi(10103));
 	}
 	
 	@Test
@@ -214,7 +214,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void getListOfTransactionsOfCustomer() {
-		List<EmiTransaction> transactions=controller.getListOfTransactionsOfCustomer(10100);
+		List<EmiTransaction> transactions=controller.getListOfTransactionsOfCustomer(10103);
 		for (EmiTransaction emiTransaction : transactions) {
 			System.out.println(emiTransaction);
 		}
@@ -231,7 +231,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void viewCardTransactions(){
-		System.out.println(controller.viewCardTransactions(10187));
+		System.out.println(controller.viewCardTransactions(10103));
 	}
 	
 }
