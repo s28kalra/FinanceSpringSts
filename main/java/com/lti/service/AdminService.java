@@ -161,7 +161,7 @@ public class AdminService implements AdminServiceInterface {
 	@Override
 	public Statistics calculateStatistics(StatisticsDate statisticsDate) {
 		LocalDate from = statisticsDate.getFrom();
-		LocalDate to = statisticsDate.getTo();
+		LocalDate to = statisticsDate.getTo().plusDays(1);
 		Statistics statistics = new Statistics();
 		statistics.setRegistrations(adminRepo.calculateTotalNumberOfRegistrationsBetween(from, to));
 		statistics.setProcessingFees(adminRepo.calculateProcessingFeesBetween(from, to));

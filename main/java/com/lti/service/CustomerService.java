@@ -88,7 +88,7 @@ public class CustomerService implements CustomerServiceInterface {
 
 		String s1 = checkout.getCardNumber().substring(0, 8);
 
-		// if not matching with the start key of gold or tatanium then return
+		// if not matching with the start key of gold or titanium then return
 		// false;
 		if (!(s1.equals("10012002") || s1.equals("30034004"))) {
 			System.out.println("Card starting number doesn't match with gold or titanium");

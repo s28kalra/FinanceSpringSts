@@ -146,9 +146,6 @@ public class Controller {
 		return customerService.activateEmiCard(customerId);
 	}
 
-	public int buyAProductOnEmi(Checkout checkout) {
-		return customerService.buyAProductOnEmi(checkout);
-	}
 
 	public boolean payMyEmi(int customerId) {
 		return customerService.payMyEmi(customerId);
@@ -241,5 +238,9 @@ public class Controller {
 			return adminLoginStatus;
 		}
 	}
-
+	
+	@RequestMapping(path = "/buyAProductOnEmi", method = RequestMethod.POST)
+	public int buyAProductOnEmi(@RequestBody Checkout checkout) {
+		return customerService.buyAProductOnEmi(checkout);
+	}
 }
