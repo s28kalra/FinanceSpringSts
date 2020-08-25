@@ -40,9 +40,9 @@ class EasyCreditApplicationTests {
 	@Test
 	public void updateAdmin(){
 		Admin admin= new Admin();
-		admin.setAdminId(10670576);
-		admin.setAdminName("Sagar Kalra");
-		admin.setAdminPassword("Sagar@1234");
+		admin.setAdminId(10670514);
+		admin.setAdminName("Krishna Vatsa");
+		admin.setAdminPassword("Krish@123");
 //		System.out.println(adminRepo.updateAdmin(admin));
 		System.out.println(controller.updateAdmin(admin));
 	}
@@ -55,10 +55,10 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Dell Inspiron I5 5575");
-		product.setProductImageSource("assets/dellInspironI5_5575.JPG");
-		product.setProductPrice(52000);
-		product.setProductDescription("Available in Variety. Laptops W/ 10th Gen Intel® Core™ Processor. Shop Now! Customize your Tech. Laptops W/ 10th Gen Intel® Core™ Processor. Buy Now! Free MS Office Home. ");
+		product.setProductName("Apple Air Pods Gen 2");
+		product.setProductImageSource("assets/airPods.jpg");
+		product.setProductPrice(12999);
+		product.setProductDescription("Amazingly easy to use, Air Pods combine intelligent design with breakthrough technology and crystal clear sound." );
 		System.out.println(controller.addProduct(product));
 	}
 	
