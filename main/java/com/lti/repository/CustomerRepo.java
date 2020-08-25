@@ -38,6 +38,7 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		}
 		return false;
 	}
+	
 	public CustomerInfo isCustomerAvailable(String email) {
 		String sql="select c from CustomerInfo c where c.customerEmail=:email ";
 		Query query=em.createQuery(sql);

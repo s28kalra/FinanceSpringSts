@@ -138,7 +138,8 @@ public class Controller {
 		return customerService.findCustomerById(customerId);
 	}
 
-	public boolean activateEmiCard(int customerId) {
+	@RequestMapping(path = "/activateEmiCard", method = RequestMethod.POST)
+	public boolean activateEmiCard(@RequestBody int customerId) {
 		return customerService.activateEmiCard(customerId);
 	}
 
@@ -186,7 +187,14 @@ public class Controller {
 		}
 		EmiCard emiCard = customerInfo.getEmiCard();
 		BeanUtils.copyProperties(emiCard, cardDto);
+		if(customerInfo.getCustomerLastName()==null)
+		{ 
+			cardDto.setCustomerName(customerInfo.getCustomerFirstName()); 
+		}
+		else 
+		{
 		cardDto.setCustomerName(customerInfo.getCustomerFirstName()+" "+customerInfo.getCustomerLastName());
+		}
 		cardDto.setCardType(customerInfo.getCardType());
 		cardDto.setCardNumber(emiCard.getCardNumberStart().substring(0,4)+" "+emiCard.getCardNumberStart().substring(4,8)+" "
 		+String.valueOf(emiCard.getCardNumber()).substring(0,4)+" "+String.valueOf(emiCard.getCardNumber()).substring(4,8));
