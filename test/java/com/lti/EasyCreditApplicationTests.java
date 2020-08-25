@@ -38,18 +38,26 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewAdmin() {
 		Admin admin= new Admin();
+
+		admin.setAdminId(10670502);
+		admin.setAdminName("Sakshi");
+		admin.setAdminPassword("Sakshi@1234");
+
 		admin.setAdminId(10670454);
 		admin.setAdminName("Shivam");
 		admin.setAdminPassword("Shivam@1234");
+
 		System.out.println(controller.addNewAdmin(admin));
 	}
 	
 	@Test
 	public void updateAdmin(){
 		Admin admin= new Admin();
-		admin.setAdminId(10670576);
-		admin.setAdminName("Sagar Kalra");
-		admin.setAdminPassword("Sagar@123");
+
+		admin.setAdminId(10670514);
+		admin.setAdminName("Krishna Vatsa");
+		admin.setAdminPassword("Krish@123");
+
 //		System.out.println(adminRepo.updateAdmin(admin));
 		System.out.println(controller.updateAdmin(admin));
 	}
@@ -62,16 +70,19 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Apple Airpods");
-		product.setProductImageSource("assets/airpods.JPG");
-		product.setProductPrice(22000);
-		product.setProductDescription("Choose from wide range of colours");
+		product.setProductName("Apple Air Pods Gen 2");
+		product.setProductImageSource("assets/airPods.jpg");
+		product.setProductPrice(12999);
+		product.setProductDescription("Amazingly easy to use, Air Pods combine intelligent design with breakthrough technology and crystal clear sound." );
+
 		System.out.println(controller.addProduct(product));
 	}
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
 		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
+
+
 
 	}
 	
@@ -94,7 +105,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateExistingCustomerEmiCard(){
-		System.out.println(controller.activateExistingCustomerEmiCard(10100));
+		System.out.println(controller.activateExistingCustomerEmiCard(10103));
 	}
 	
 	@Test
@@ -117,16 +128,29 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("Rakesh");
+
+		customerInfo.setCustomerFirstName("Riya");
 		customerInfo.setCustomerLastName("Sharma");
-		customerInfo.setCustomerEmail("rakesh@lti.com");
-		customerInfo.setCustomerMobile("9860912465");
-		customerInfo.setAccountNumber("1212121212");
+		customerInfo.setCustomerEmail("riya@lti.com");
+		customerInfo.setCustomerMobile("9860912456");
+		customerInfo.setAccountNumber("1212121289");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("982845129534");
-		customerInfo.setCustomerPassword("rakeshji@123");
+		customerInfo.setCustomerAadharCard("982845129511");
+		customerInfo.setCustomerPassword("riya@123");
 		customerInfo.setDateOfBirth(LocalDate.of(1990, 03, 23));
 		customerInfo.setIfsc("CBIN69203401");
+
+		customerInfo.setCustomerFirstName("Chetan");
+		customerInfo.setCustomerLastName("");
+		customerInfo.setCustomerEmail("chetan@lti.com");
+		customerInfo.setCustomerMobile("9860912345");
+		customerInfo.setAccountNumber("12121286345");
+		customerInfo.setCardType("Gold");
+		customerInfo.setCustomerAadharCard("982845120345");
+		customerInfo.setCustomerPassword("chetan@123");
+		customerInfo.setDateOfBirth(LocalDate.of(1990, 11, 27));
+		customerInfo.setIfsc("CBIN69203345");
+
 		System.out.println(controller.addNewCustomer(customerInfo));
 	}
 	
@@ -151,7 +175,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateEmiCard() {
-		System.out.println(controller.activateEmiCard(10105));
+		System.out.println(controller.activateEmiCard(10139));
 	}
 
 	@Test
@@ -162,6 +186,18 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
+
+		checkout.setCustomerId(10105);
+		checkout.setProductId(5200); 
+		checkout.setProductQuantity(1);
+		checkout.setEmiTenure(8);
+		checkout.setShippingAddress("Kaithal");
+		checkout.setCardHolderName("dev");
+		checkout.setCardNumber("3003400430012553");
+		checkout.setExpiryMonth(8);
+		checkout.setExpiryYear(2025);
+		checkout.setCvv(111);
+
 		checkout.setCustomerId(10103);
 		checkout.setProductId(5251); 
 		checkout.setProductQuantity(2);
@@ -172,6 +208,7 @@ class EasyCreditApplicationTests {
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
 		checkout.setCvv(584);
+
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
