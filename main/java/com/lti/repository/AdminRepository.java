@@ -86,8 +86,9 @@ public class AdminRepository implements AdminRepositoryInterface {
 
 	public List<CustomerInfo> viewAllCustomers() {
 		try {
-			Query query = em.createQuery("select c from CustomerInfo c order by c.registrationDate",
+			Query query = em.createQuery("select c from CustomerInfo c where c.isValidCustomer!=:v order by c.registrationDate",
 					CustomerInfo.class);
+			query.setParameter("v", 0);
 			return query.getResultList();
 		} catch (DataAccessException e) {
 //			e.printStackTrace();
