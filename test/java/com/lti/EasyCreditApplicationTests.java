@@ -66,6 +66,7 @@ class EasyCreditApplicationTests {
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
 		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
+
 	}
 	
 	@Test
