@@ -17,6 +17,7 @@ import com.lti.dto.AdminLoginDto;
 import com.lti.dto.EmiCardDto;
 import com.lti.dto.EmiTransactionDto;
 import com.lti.dto.LoginDto;
+import com.lti.dto.StatisticsDate;
 import com.lti.enums.StatusType;
 import com.lti.exception.AdminException;
 import com.lti.exception.CustomerServiceException;
@@ -32,6 +33,7 @@ import com.lti.service.CustomerServiceInterface;
 import com.lti.status.AdminLoginStatus;
 import com.lti.status.LoginStatus;
 import com.lti.status.RegisterStatus;
+import com.lti.status.Statistics;
 import com.lti.status.ViewCardTransactionsStatus;
 
 @RestController
@@ -57,7 +59,8 @@ public class Controller {
 		return adminService.findAdminById(adminId);
 	}
 
-	public Product addProduct(Product product) {
+	@PostMapping("/addProduct")
+	public Product addProduct(@RequestBody Product product) {
 		return adminService.addProduct(product);
 	}
 
@@ -149,21 +152,10 @@ public class Controller {
 	public boolean payMyEmi(int customerId) {
 		return customerService.payMyEmi(customerId);
 	}
-
-	public long calculateTotalNumberOfRegistrationsBetween(LocalDate from, LocalDate to) {
-		return adminService.calculateTotalNumberOfRegistrationsBetween(from, to);
-	}
-
-	public double calculateJoiningFeesBetween(LocalDate from, LocalDate to) {
-		return adminService.calculateJoiningFeesBetween(from, to);
-	}
-
-	public double calculateProcessingFeesBetween(LocalDate from, LocalDate to) {
-		return adminService.calculateProcessingFeesBetween(from, to);
-	}
-
-	public double calculateProfitBetween(LocalDate from, LocalDate to) {
-		return adminService.calculateProfitBetween(from, to);
+	
+	@PostMapping("/calculateStatistics")
+	public Statistics calculateStatistics(@RequestBody StatisticsDate statisticsDate) {
+		return adminService.calculateStatistics(statisticsDate);
 	}
 
 	@RequestMapping(path = "/getAllProducts", method = RequestMethod.GET)

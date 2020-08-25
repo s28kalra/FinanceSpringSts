@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lti.dto.StatisticsDate;
 import com.lti.exception.AdminException;
 import com.lti.exception.CustomerServiceException;
 import com.lti.model.Admin;
@@ -16,6 +17,7 @@ import com.lti.model.EmiCard;
 import com.lti.model.Product;
 import com.lti.repository.AdminRepositoryInterface;
 import com.lti.repository.CustomerRepositoryInterface;
+import com.lti.status.Statistics;
 
 @Service
 public class AdminService implements AdminServiceInterface {
@@ -38,6 +40,7 @@ public class AdminService implements AdminServiceInterface {
 		return adminRepo.findAdminById(adminId);
 	}
 
+	@Transactional
 	public Product addProduct(Product product) {
 		return adminRepo.addProduct(product);
 	}
@@ -66,7 +69,7 @@ public class AdminService implements AdminServiceInterface {
 			emiCard.setCustomerInfo(customerInfo);
 			customerInfo.setEmiCard(emiCard);
 
-			customerInfo=customerRepo.updateCustomer(customerInfo);
+			customerInfo = customerRepo.updateCustomer(customerInfo);
 			return customerInfo.getEmiCard();
 		}
 		return null;
@@ -74,9 +77,9 @@ public class AdminService implements AdminServiceInterface {
 
 	@Transactional
 	public CustomerInfo deactivateACustomer(int customerId) {
-		CustomerInfo customerInfo=customerRepo.findCustomerById(customerId);
-		if(customerInfo!=null){
-			if(customerInfo.getEmiCard()!=null){
+		CustomerInfo customerInfo = customerRepo.findCustomerById(customerId);
+		if (customerInfo != null) {
+			if (customerInfo.getEmiCard() != null) {
 				customerInfo.getEmiCard().setCardStatus(false);
 //				customerRepo.updateCustomer(customerInfo);
 			}
@@ -87,8 +90,8 @@ public class AdminService implements AdminServiceInterface {
 
 	@Transactional
 	public CustomerInfo activateExistingCustomerEmiCard(int customerId) {
-		CustomerInfo customerInfo=customerRepo.findCustomerById(customerId);
-		if(customerInfo!=null && customerInfo.getIsValidCustomer()==1){
+		CustomerInfo customerInfo = customerRepo.findCustomerById(customerId);
+		if (customerInfo != null && customerInfo.getIsValidCustomer() == 1) {
 			customerInfo.getEmiCard().setCardStatus(true);
 //			adminRepo.updateEmiCard(customerInfo.getEmiCard());
 			return customerInfo;
@@ -98,15 +101,15 @@ public class AdminService implements AdminServiceInterface {
 
 	@Transactional
 	public CustomerInfo rejectACustomer(int customerId) {
-		CustomerInfo customerInfo= customerRepo.findCustomerById(customerId);
-		if(customerInfo!=null){
+		CustomerInfo customerInfo = customerRepo.findCustomerById(customerId);
+		if (customerInfo != null) {
 			customerInfo.setIsValidCustomer(-1);
 //			customerRepo.updateCustomer(customerInfo);
 			return customerInfo;
 		}
-		return null;		
+		return null;
 	}
-	
+
 	public List<CustomerInfo> viewAllCustomers() {
 		return adminRepo.viewAllCustomers();
 	}
@@ -136,7 +139,7 @@ public class AdminService implements AdminServiceInterface {
 
 	@Override
 	public double calculateProfitBetween(LocalDate from, LocalDate to) {
-		return adminRepo.calculateJoiningFeesBetween(from, to)+ adminRepo.calculateProcessingFeesBetween(from, to);
+		return adminRepo.calculateJoiningFeesBetween(from, to) + adminRepo.calculateProcessingFeesBetween(from, to);
 	}
 
 	@Override
@@ -153,6 +156,18 @@ public class AdminService implements AdminServiceInterface {
 			throw new CustomerServiceException("Incorrect email or password");
 		}
 		return admin;
+	}
+
+	@Override
+	public Statistics calculateStatistics(StatisticsDate statisticsDate) {
+		LocalDate from = statisticsDate.getFrom();
+		LocalDate to = statisticsDate.getTo();
+		Statistics statistics = new Statistics();
+		statistics.setRegistrations(adminRepo.calculateTotalNumberOfRegistrationsBetween(from, to));
+		statistics.setProcessingFees(adminRepo.calculateProcessingFeesBetween(from, to));
+		statistics.setJoiningFees(adminRepo.calculateJoiningFeesBetween(from, to));
+		statistics.setTotalProfit(statistics.getJoiningFees() + statistics.getProcessingFees());
+		return statistics;
 	}
 
 }

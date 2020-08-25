@@ -13,11 +13,14 @@ import org.springframework.test.annotation.Rollback;
 import com.lti.controller.Controller;
 import com.lti.dto.EmiCardDto;
 import com.lti.dto.LoginDto;
+import com.lti.dto.StatisticsDate;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
+import com.lti.repository.AdminRepository;
+import com.lti.repository.AdminRepositoryInterface;
 
 import net.bytebuddy.asm.Advice.Local;
 
@@ -28,6 +31,9 @@ class EasyCreditApplicationTests {
 	
 	@Autowired
 	private Controller controller;
+	
+	@Autowired
+	AdminRepositoryInterface adminRepo;
 	
 	@Test
 	public void addNewAdmin() {
@@ -181,36 +187,23 @@ class EasyCreditApplicationTests {
 	}
 	
 	@Test
-	public void calculateTotalNumberOfRegistrationsBetween() {
+	public void calculateStatistics() {
 		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateTotalNumberOfRegistrationsBetween(from, to));
+		StatisticsDate statisticsDate= new StatisticsDate();
+		statisticsDate.setFrom(LocalDate.now().minusDays(x));
+		statisticsDate.setTo(LocalDate.now());
+		System.out.println(controller.calculateStatistics(statisticsDate));
 	}
 	
 	@Test
-	public void calculateJoiningFeesBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateJoiningFeesBetween(from, to));
+	public void joining() {
+		LocalDate from=LocalDate.now().minusDays(90);
+		LocalDate to=LocalDate.now();
+		System.out.println(adminRepo.calculateJoiningFeesBetween(from, to));
+		System.out.println(adminRepo.calculateTotalNumberOfRegistrationsBetween(from, to));
+		System.out.println(adminRepo.calculateProcessingFeesBetween(from, to));
 	}
 	
-	@Test
-	public void calculateProcessingFeesBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateProcessingFeesBetween(from, to));
-	}
-	
-	@Test
-	public void calculateProfitBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateProfitBetween(from, to));
-	}
 	
 	@Test
 	public void getAllProducts(){

@@ -142,7 +142,7 @@ public class AdminRepository implements AdminRepositoryInterface {
 	}
 
 	@Override
-	public long calculateTotalNumberOfRegistrationsBetween(LocalDate from, LocalDate to) {
+	public Long calculateTotalNumberOfRegistrationsBetween(LocalDate from, LocalDate to) {
 		try {
 			String sql="select count(c) from CustomerInfo c where c.registrationDate between :from and :to";
 			Query query= em.createQuery(sql);
@@ -152,25 +152,25 @@ public class AdminRepository implements AdminRepositoryInterface {
 		} catch (DataAccessException e) {
 //			e.printStackTrace();
 		}
-		return 0;
+		return (long) 0;
 	}
 
 	@Override
-	public double calculateJoiningFeesBetween(LocalDate from, LocalDate to) {
+	public Double calculateJoiningFeesBetween(LocalDate from, LocalDate to) {
 		try {
 			String sql="select sum(card.joiningFees) from EmiCard card where card.joiningFeesDate between :from and :to";
 			Query query = em.createQuery(sql);
 			query.setParameter("from", from);
 			query.setParameter("to", to);
 			return (double) query.getSingleResult();			
-		} catch (DataAccessException e) {
+		} catch (Exception e) {
 //			e.printStackTrace();
 		}
-		return 0;		
+		return (double) 0;		
 	}
 
 	@Override
-	public double calculateProcessingFeesBetween(LocalDate from, LocalDate to) {
+	public Double calculateProcessingFeesBetween(LocalDate from, LocalDate to) {
 		try {
 			String sql="select sum(trans.processingFee) from EmiTransaction trans where trans.transactionDate between : from and :to";
 			Query query = em.createQuery(sql);
@@ -180,7 +180,7 @@ public class AdminRepository implements AdminRepositoryInterface {
 		} catch (Exception e) {
 //			e.printStackTrace();
 		}
-		return 0;
+		return (double) 0;
 	}
 
 }
