@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lti.dto.AdminLoginDto;
+import com.lti.dto.EmiCardDto;
 import com.lti.dto.EmiTransactionDto;
 import com.lti.dto.LoginDto;
 import com.lti.enums.StatusType;
@@ -173,6 +174,23 @@ public class Controller {
 	@RequestMapping(path = "/getListOfTransactionsOfCustomer", method = RequestMethod.POST)
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(@RequestBody int customerId) {
 		return customerService.getListOfTransactionsOfCustomer(customerId);
+	}
+	
+	@RequestMapping(path = "/getCardDetails", method = RequestMethod.POST)
+	public EmiCardDto getCardDetails(@RequestBody int customerId) {
+		EmiCardDto cardDto = new EmiCardDto();
+		CustomerInfo customerInfo =  customerService.findCustomerById(customerId);
+		if(customerInfo==null)
+		{
+			return null;
+		}
+		EmiCard emiCard = customerInfo.getEmiCard();
+		BeanUtils.copyProperties(emiCard, cardDto);
+		cardDto.setCustomerName(customerInfo.getCustomerFirstName()+" "+customerInfo.getCustomerLastName());
+		cardDto.setCardType(customerInfo.getCardType());
+		cardDto.setCardNumber(emiCard.getCardNumberStart().substring(0,4)+" "+emiCard.getCardNumberStart().substring(4,8)+" "
+		+String.valueOf(emiCard.getCardNumber()).substring(0,4)+" "+String.valueOf(emiCard.getCardNumber()).substring(4,8));
+		return cardDto;
 	}
 
 	@RequestMapping(path = "/viewCardTransactions", method = RequestMethod.POST)

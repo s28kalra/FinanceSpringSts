@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import com.lti.controller.Controller;
+import com.lti.dto.EmiCardDto;
 import com.lti.dto.LoginDto;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
@@ -31,9 +32,15 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewAdmin() {
 		Admin admin= new Admin();
+
 		admin.setAdminId(10670502);
 		admin.setAdminName("Sakshi");
 		admin.setAdminPassword("Sakshi@1234");
+
+		admin.setAdminId(10670454);
+		admin.setAdminName("Shivam");
+		admin.setAdminPassword("Shivam@1234");
+
 		System.out.println(controller.addNewAdmin(admin));
 	}
 	
@@ -42,7 +49,7 @@ class EasyCreditApplicationTests {
 		Admin admin= new Admin();
 		admin.setAdminId(10670576);
 		admin.setAdminName("Sagar Kalra");
-		admin.setAdminPassword("Sagar@1234");
+		admin.setAdminPassword("Sagar@123");
 //		System.out.println(adminRepo.updateAdmin(admin));
 		System.out.println(controller.updateAdmin(admin));
 	}
@@ -55,16 +62,19 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Dell Inspiron I5 5575");
-		product.setProductImageSource("assets/dellInspironI5_5575.JPG");
-		product.setProductPrice(52000);
-		product.setProductDescription("Available in Variety. Laptops W/ 10th Gen Intel® Core™ Processor. Shop Now! Customize your Tech. Laptops W/ 10th Gen Intel® Core™ Processor. Buy Now! Free MS Office Home. ");
+		product.setProductName("Apple Airpods");
+		product.setProductImageSource("assets/airpods.JPG");
+		product.setProductPrice(22000);
+		product.setProductDescription("Choose from wide range of colours");
 		System.out.println(controller.addProduct(product));
 	}
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
 		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
+
+
+
 	}
 	
 	@Test
@@ -100,21 +110,25 @@ class EasyCreditApplicationTests {
 	public void trySomething(){
 		
 	}	
+	
+	@Test
+	public void getCardDetails() {
+		System.out.println(controller.getCardDetails(10103));
+	}
 
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-
-		customerInfo.setCustomerFirstName("dev");
-		customerInfo.setCustomerLastName("patel");
-		customerInfo.setCustomerEmail("devpatel@lti.com");
-		customerInfo.setCustomerMobile("7988348363");
-		customerInfo.setAccountNumber("8888888888");
+		customerInfo.setCustomerFirstName("Riya");
+		customerInfo.setCustomerLastName("Sharma");
+		customerInfo.setCustomerEmail("riya@lti.com");
+		customerInfo.setCustomerMobile("9860912456");
+		customerInfo.setAccountNumber("1212121289");
 		customerInfo.setCardType("Gold");
-		customerInfo.setCustomerAadharCard("232323232312");
-		customerInfo.setCustomerPassword("dev@1234@1234");
-		customerInfo.setDateOfBirth(LocalDate.of(1998, 11, 28));
-		customerInfo.setIfsc("CBIN8539794");
+		customerInfo.setCustomerAadharCard("982845129511");
+		customerInfo.setCustomerPassword("riya@123");
+		customerInfo.setDateOfBirth(LocalDate.of(1990, 03, 23));
+		customerInfo.setIfsc("CBIN69203401");
 		System.out.println(controller.addNewCustomer(customerInfo));
 	}
 	
@@ -124,7 +138,7 @@ class EasyCreditApplicationTests {
 		CustomerInfo customerInfo = new CustomerInfo();
 		customerInfo.setCustomerId(10137);
 		customerInfo.setCustomerFirstName("Jackson");
-		customerInfo.setCustomerLastName("");
+		customerInfo.setCustomerLastName("Action");
 		customerInfo.setCustomerEmail("Jackson@lti.com");
 		customerInfo.setCustomerMobile("71537678746");
 		customerInfo.setAccountNumber("6487687863863812");
@@ -150,6 +164,7 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
+
 		checkout.setCustomerId(10105);
 		checkout.setProductId(5200); 
 		checkout.setProductQuantity(1);
@@ -160,6 +175,18 @@ class EasyCreditApplicationTests {
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
 		checkout.setCvv(111);
+
+		checkout.setCustomerId(10103);
+		checkout.setProductId(5251); 
+		checkout.setProductQuantity(2);
+		checkout.setEmiTenure(8);
+		checkout.setShippingAddress("Dehradun");
+		checkout.setCardHolderName("Ram Kumar");
+		checkout.setCardNumber("3003400430012551");
+		checkout.setExpiryMonth(8);
+		checkout.setExpiryYear(2025);
+		checkout.setCvv(584);
+
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
@@ -171,7 +198,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void payMyEmi() {
-		System.out.println(controller.payMyEmi(10187));
+		System.out.println(controller.payMyEmi(10103));
 	}
 	
 	@Test
@@ -215,7 +242,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void getListOfTransactionsOfCustomer() {
-		List<EmiTransaction> transactions=controller.getListOfTransactionsOfCustomer(10100);
+		List<EmiTransaction> transactions=controller.getListOfTransactionsOfCustomer(10103);
 		for (EmiTransaction emiTransaction : transactions) {
 			System.out.println(emiTransaction);
 		}
@@ -232,7 +259,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void viewCardTransactions(){
-		System.out.println(controller.viewCardTransactions(10187));
+		System.out.println(controller.viewCardTransactions(10103));
 	}
 	
 }
