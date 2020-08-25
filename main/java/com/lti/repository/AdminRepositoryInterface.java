@@ -20,7 +20,7 @@ public interface AdminRepositoryInterface {
 	EmiCard findEmiCardByCardNumber(int cardNumber);
 	EmiCard updateEmiCard(EmiCard emiCard); 
 	boolean generateBill();
-	long calculateTotalNumberOfRegistrationsBetween(LocalDate from, LocalDate to);
-	double calculateJoiningFeesBetween(LocalDate from, LocalDate to);
-	double calculateProcessingFeesBetween(LocalDate from, LocalDate to);
+	Long calculateTotalNumberOfRegistrationsBetween(LocalDate from, LocalDate to);
+	Double calculateJoiningFeesBetween(LocalDate from, LocalDate to);
+	Double calculateProcessingFeesBetween(LocalDate from, LocalDate to);
 }

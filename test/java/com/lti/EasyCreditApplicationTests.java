@@ -13,11 +13,14 @@ import org.springframework.test.annotation.Rollback;
 import com.lti.controller.Controller;
 import com.lti.dto.EmiCardDto;
 import com.lti.dto.LoginDto;
+import com.lti.dto.StatisticsDate;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiTransaction;
 import com.lti.model.Product;
+import com.lti.repository.AdminRepository;
+import com.lti.repository.AdminRepositoryInterface;
 
 import net.bytebuddy.asm.Advice.Local;
 
@@ -29,21 +32,32 @@ class EasyCreditApplicationTests {
 	@Autowired
 	private Controller controller;
 	
+	@Autowired
+	AdminRepositoryInterface adminRepo;
+	
 	@Test
 	public void addNewAdmin() {
 		Admin admin= new Admin();
+
+		admin.setAdminId(10670502);
+		admin.setAdminName("Sakshi");
+		admin.setAdminPassword("Sakshi@1234");
+
 		admin.setAdminId(10670454);
 		admin.setAdminName("Shivam");
 		admin.setAdminPassword("Shivam@1234");
+
 		System.out.println(controller.addNewAdmin(admin));
 	}
 	
 	@Test
 	public void updateAdmin(){
 		Admin admin= new Admin();
-		admin.setAdminId(10670576);
-		admin.setAdminName("Sagar Kalra");
-		admin.setAdminPassword("Sagar@123");
+
+		admin.setAdminId(10670514);
+		admin.setAdminName("Krishna Vatsa");
+		admin.setAdminPassword("Krish@123");
+
 //		System.out.println(adminRepo.updateAdmin(admin));
 		System.out.println(controller.updateAdmin(admin));
 	}
@@ -56,16 +70,19 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Apple Airpods");
-		product.setProductImageSource("assets/airpods.JPG");
-		product.setProductPrice(22000);
-		product.setProductDescription("Choose from wide range of colours");
+		product.setProductName("Apple Air Pods Gen 2");
+		product.setProductImageSource("assets/airPods.jpg");
+		product.setProductPrice(12999);
+		product.setProductDescription("Amazingly easy to use, Air Pods combine intelligent design with breakthrough technology and crystal clear sound." );
+
 		System.out.println(controller.addProduct(product));
 	}
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
 		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
+
+
 
 	}
 	
@@ -88,7 +105,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateExistingCustomerEmiCard(){
-		System.out.println(controller.activateExistingCustomerEmiCard(10100));
+		System.out.println(controller.activateExistingCustomerEmiCard(10103));
 	}
 	
 	@Test
@@ -111,16 +128,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewCustomer() {
 		CustomerInfo customerInfo = new CustomerInfo();
-		customerInfo.setCustomerFirstName("Raman");
-		customerInfo.setCustomerLastName("");
-		customerInfo.setCustomerEmail("raman@lti.com");
-		customerInfo.setCustomerMobile("9362874920");
-		customerInfo.setAccountNumber("12121285912");
-		customerInfo.setCardType("Titanium");
-		customerInfo.setCustomerAadharCard("982845129742");
-		customerInfo.setCustomerPassword("raman@123");
-		customerInfo.setDateOfBirth(LocalDate.of(1990, 11, 27));
-		customerInfo.setIfsc("CBIN69207623");
+		customerInfo.setCustomerFirstName("Riya");
+		customerInfo.setCustomerLastName("Sharma");
+		customerInfo.setCustomerEmail("riya@lti.com");
+		customerInfo.setCustomerMobile("9860912456");
+		customerInfo.setAccountNumber("1212121289");
+		customerInfo.setCardType("Gold");
+		customerInfo.setCustomerAadharCard("982845129511");
+		customerInfo.setCustomerPassword("riya@123");
+		customerInfo.setDateOfBirth(LocalDate.of(1990, 03, 23));
+		customerInfo.setIfsc("CBIN69203401");
 		System.out.println(controller.addNewCustomer(customerInfo));
 	}
 	
@@ -156,6 +173,18 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
+
+		checkout.setCustomerId(10105);
+		checkout.setProductId(5200); 
+		checkout.setProductQuantity(1);
+		checkout.setEmiTenure(8);
+		checkout.setShippingAddress("Kaithal");
+		checkout.setCardHolderName("dev");
+		checkout.setCardNumber("3003400430012553");
+		checkout.setExpiryMonth(8);
+		checkout.setExpiryYear(2025);
+		checkout.setCvv(111);
+
 		checkout.setCustomerId(10103);
 		checkout.setProductId(5251); 
 		checkout.setProductQuantity(2);
@@ -166,6 +195,7 @@ class EasyCreditApplicationTests {
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
 		checkout.setCvv(584);
+
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
@@ -181,36 +211,23 @@ class EasyCreditApplicationTests {
 	}
 	
 	@Test
-	public void calculateTotalNumberOfRegistrationsBetween() {
+	public void calculateStatistics() {
 		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateTotalNumberOfRegistrationsBetween(from, to));
+		StatisticsDate statisticsDate= new StatisticsDate();
+		statisticsDate.setFrom(LocalDate.now().minusDays(x));
+		statisticsDate.setTo(LocalDate.now());
+		System.out.println(controller.calculateStatistics(statisticsDate));
 	}
 	
 	@Test
-	public void calculateJoiningFeesBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateJoiningFeesBetween(from, to));
+	public void joining() {
+		LocalDate from=LocalDate.now().minusDays(90);
+		LocalDate to=LocalDate.now();
+		System.out.println(adminRepo.calculateJoiningFeesBetween(from, to));
+		System.out.println(adminRepo.calculateTotalNumberOfRegistrationsBetween(from, to));
+		System.out.println(adminRepo.calculateProcessingFeesBetween(from, to));
 	}
 	
-	@Test
-	public void calculateProcessingFeesBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateProcessingFeesBetween(from, to));
-	}
-	
-	@Test
-	public void calculateProfitBetween() {
-		int x=90;
-		LocalDate from = LocalDate.now().minusDays(x);
-		LocalDate to = LocalDate.now();
-		System.out.println(controller.calculateProfitBetween(from, to));
-	}
 	
 	@Test
 	public void getAllProducts(){

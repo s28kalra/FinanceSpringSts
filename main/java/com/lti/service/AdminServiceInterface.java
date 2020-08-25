@@ -3,10 +3,12 @@ package com.lti.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.lti.dto.StatisticsDate;
 import com.lti.model.Admin;
 import com.lti.model.CustomerInfo;
 import com.lti.model.EmiCard;
 import com.lti.model.Product;
+import com.lti.status.Statistics;
 
 public interface AdminServiceInterface {
 	
@@ -27,4 +29,5 @@ public interface AdminServiceInterface {
 	double calculateProfitBetween(LocalDate from, LocalDate to);
 	List<Product> getAllProducts();
 	Admin loginAdmin(int adminId, String adminPassword);
+	Statistics calculateStatistics(StatisticsDate statisticsDate);
 }
