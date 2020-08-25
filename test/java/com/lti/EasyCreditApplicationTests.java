@@ -31,9 +31,9 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addNewAdmin() {
 		Admin admin= new Admin();
-		admin.setAdminId(10670576);
-		admin.setAdminName("Sagar");
-		admin.setAdminPassword("Sagar@1234");
+		admin.setAdminId(10670502);
+		admin.setAdminName("Sakshi");
+		admin.setAdminPassword("Sakshi@1234");
 		System.out.println(controller.addNewAdmin(admin));
 	}
 	
@@ -64,7 +64,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void validateCustomerAndIssueEmiCard(){
-		System.out.println(controller.validateCustomerAndIssueEmiCard(10103));
+		System.out.println(controller.validateCustomerAndIssueEmiCard(10105));
 	}
 	
 	@Test
@@ -86,7 +86,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateExistingCustomerEmiCard(){
-		System.out.println(controller.activateExistingCustomerEmiCard(10100));
+		System.out.println(controller.activateExistingCustomerEmiCard(10103));
 	}
 	
 	@Test
@@ -139,7 +139,7 @@ class EasyCreditApplicationTests {
 	
 	@Test
 	public void activateEmiCard() {
-		System.out.println(controller.activateEmiCard(10100));
+		System.out.println(controller.activateEmiCard(10105));
 	}
 
 	@Test
@@ -150,16 +150,16 @@ class EasyCreditApplicationTests {
 	@Test
 	public void buyAProductOnEmi() {
 		Checkout checkout = new Checkout();
-		checkout.setCustomerId(10100);
-		checkout.setProductId(5251); 
+		checkout.setCustomerId(10105);
+		checkout.setProductId(5200); 
 		checkout.setProductQuantity(1);
 		checkout.setEmiTenure(8);
 		checkout.setShippingAddress("Kaithal");
 		checkout.setCardHolderName("dev");
-		checkout.setCardNumber("3003400430012551");
+		checkout.setCardNumber("3003400430012553");
 		checkout.setExpiryMonth(8);
 		checkout.setExpiryYear(2025);
-		checkout.setCvv(845);
+		checkout.setCvv(111);
 		System.out.println(controller.buyAProductOnEmi(checkout));
 	}
 	
