@@ -131,8 +131,8 @@ public class Controller {
 
 		}
 	}
-
-	public CustomerInfo updateCustomer(CustomerInfo customerInfo) {
+	@RequestMapping(path = "/updateCustomer", method = RequestMethod.POST)
+	public CustomerInfo updateCustomer(@RequestBody CustomerInfo customerInfo) {
 		return customerService.updateCustomer(customerInfo);
 	}
 
