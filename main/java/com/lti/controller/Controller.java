@@ -148,7 +148,8 @@ public class Controller {
 	}
 
 
-	public boolean payMyEmi(int customerId) {
+	@RequestMapping(path = "/payMyEmi", method = RequestMethod.POST)
+	public boolean payMyEmi(@RequestBody int customerId) {
 		return customerService.payMyEmi(customerId);
 	}
 	
@@ -244,4 +245,5 @@ public class Controller {
 	public int buyAProductOnEmi(@RequestBody Checkout checkout) {
 		return customerService.buyAProductOnEmi(checkout);
 	}
+	
 }

@@ -26,4 +26,5 @@ public interface CustomerServiceInterface {
 
 	List<EmiTransaction> viewCardTransactions(int customerId);
 
+
 }
