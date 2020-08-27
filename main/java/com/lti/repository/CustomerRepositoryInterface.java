@@ -21,4 +21,6 @@ public interface CustomerRepositoryInterface {
 	List<EmiTransaction> getListOfTransactionsOfEmiCard(int cardNumber);
 	List<EmiTransaction> getListOfTransactionsOfEmiCardPayPending(int cardNumber);
 	List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId);
+	CustomerInfo findCustomerByEmail(String email);
+	
 }

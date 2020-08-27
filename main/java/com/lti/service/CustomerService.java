@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.dto.EmiCardDto;
+import com.lti.email.EmailService;
 import com.lti.exception.CustomerServiceException;
 import com.lti.exception.ViewCardTransactionsException;
 import com.lti.model.Checkout;
@@ -24,22 +25,26 @@ import com.lti.sms.SmsService;
 public class CustomerService implements CustomerServiceInterface {
 
 	@Autowired
-	CustomerRepositoryInterface customerRepo;
+	private CustomerRepositoryInterface customerRepo;
 
 	@Autowired
-	AdminRepositoryInterface adminRepo;
+	private AdminRepositoryInterface adminRepo;
 
 	@Autowired
-	SmsService smsService;
+	private SmsService smsService;
+
+	@Autowired
+	private EmailService emailService;
 
 	public int addNewCustomer(CustomerInfo customerInfo) {
 		if (customerRepo.isNewCustomerUnique(customerInfo.getCustomerEmail(), customerInfo.getCustomerMobile(),
 				customerInfo.getCustomerAadharCard())) {
 			customerInfo.setRegistrationDate(LocalDate.now()); // always now
 			customerInfo.setIsValidCustomer(0); // initially 0
-			int id=0;
-//			if(smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile()))
-				id = customerRepo.addNewCustomer(customerInfo);
+			int id = 0;
+			emailService.sendRegisterEmail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail());
+//			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
+			id = customerRepo.addNewCustomer(customerInfo);
 			return id;
 		}
 		return 0;
@@ -58,7 +63,9 @@ public class CustomerService implements CustomerServiceInterface {
 	}
 
 	public CustomerInfo updateCustomer(CustomerInfo customerInfo) {
-		return customerRepo.updateCustomer(customerInfo);
+		customerInfo = customerRepo.updateCustomer(customerInfo);
+		emailService.sendUpdateProfileEmail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail());
+		return customerInfo;
 	}
 
 	public CustomerInfo findCustomerById(int customerId) {
@@ -170,7 +177,11 @@ public class CustomerService implements CustomerServiceInterface {
 		transaction.setAmount(amoutWithoutCharge * (1 + processingPercentage));
 		transaction.setNoOfEmisLeft(transaction.getEmiTenure());
 
-		return customerRepo.buyAProductOnEmi(transaction, emiCard);
+		int transactionId = customerRepo.buyAProductOnEmi(transaction, emiCard);
+		emailService.sendTransactionEmail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail(),
+				product.getProductName(), transactionId);
+		
+		return transactionId;
 	}
 
 	@Transactional
@@ -208,9 +219,9 @@ public class CustomerService implements CustomerServiceInterface {
 
 	@Override
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(int customerId) {
-		List<EmiTransaction> transactions=customerRepo.getListOfTransactionsOfCustomer(customerId);
+		List<EmiTransaction> transactions = customerRepo.getListOfTransactionsOfCustomer(customerId);
 		return transactions;
-	}	
+	}
 
 	public List<EmiTransaction> viewCardTransactions(int customerId) {
 		EmiCard emiCard = customerRepo.findCustomerById(customerId).getEmiCard();
@@ -222,6 +233,24 @@ public class CustomerService implements CustomerServiceInterface {
 			return customerRepo.getListOfTransactionsOfEmiCard(emiCard.getCardNumber());
 		}
 
+	}
+
+	@Override
+	public CustomerInfo forgotPassword(String email) {
+		CustomerInfo customerInfo= customerRepo.findCustomerByEmail(email);
+		if (customerInfo != null) {
+			int otp = emailService.sendOtpEmail(email);
+			if (otp > 0)
+				return customerInfo;
+		}
+		return null;
+	}
+
+	@Override
+	public int validateAnOtp(String email, String otp) {
+		if(emailService.validateAnOtp(email, otp))
+			return customerRepo.findCustomerByEmail(email).getCustomerId();
+		return 0;
 	}
 
 }
