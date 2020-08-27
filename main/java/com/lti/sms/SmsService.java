@@ -24,12 +24,12 @@ public class SmsService {
 					+ " to proceed further. OTP is valid for 15 mins. Thanks LTI Easy Credit ";
 
 			message = URLEncoder.encode(message, "UTF-8");
-			// System.out.println(message);
+			System.out.println(message);
 
 			String myUrl = "https://www.fast2sms.com/dev/bulk?authorization=" + this.apiKey+ "&sender_id=" + this.senderId
 					+ "&message=" + message + "&language=english&route=p&numbers=" + number;
 
-			// System.out.println(url);
+			System.out.println(myUrl);
 
 			URL url = new URL(myUrl);
 
@@ -55,7 +55,7 @@ public class SmsService {
 				response.append(line);
 			}
 
-//			System.out.println(response);
+			System.out.println(response);
 
 			return n;
 
@@ -67,19 +67,19 @@ public class SmsService {
 	}
 
 	public boolean sendRegisterSms(String customerFirstName, String number) {
-//		String apiKey = "NQnBE6K2WjeuZvOwloIXUSDbpAHmysf39hYF1r4GdcViJ8C0qg2klpDwMcIYT8ndPgV54FNzyQSZsuet";
-//		String senderId = "SMSIND";
+		String apiKey = "NQnBE6K2WjeuZvOwloIXUSDbpAHmysf39hYF1r4GdcViJ8C0qg2klpDwMcIYT8ndPgV54FNzyQSZsuet";
+		String senderId = "SMSIND";
 		String message = "ThankYou " + customerFirstName + " for registering with Easy Credit\n"
 				+ "Hope you do not find any Inconvienence";
 		try {
 
 			message = URLEncoder.encode(message, "UTF-8");
-			// System.out.println(message);
+			 System.out.println(message);
 
 			String myUrl = "https://www.fast2sms.com/dev/bulk?authorization=" + this.apiKey + "&sender_id=" + this.senderId
 					+ "&message=" + message + "&language=english&route=p&numbers=" + number;
 
-//			System.out.println(myUrl);
+			System.out.println(myUrl);
 
 			URL url = new URL(myUrl);
 
@@ -105,7 +105,7 @@ public class SmsService {
 				response.append(line);
 			}
 
-//			System.out.println(response);
+			System.out.println(response);
 
 			return true;
 
