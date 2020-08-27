@@ -30,4 +30,5 @@ public interface CustomerServiceInterface {
 	
 	int validateAnOtp(String email, String otp);
 
+
 }

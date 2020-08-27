@@ -74,10 +74,10 @@ class EasyCreditApplicationTests {
 	@Test
 	public void addProduct(){
 		Product product= new Product();
-		product.setProductName("Apple Air Pods Gen 2");
-		product.setProductImageSource("assets/airPods.jpg");
-		product.setProductPrice(12999);
-		product.setProductDescription("Amazingly easy to use, Air Pods combine intelligent design with breakthrough technology and crystal clear sound." );
+		product.setProductName("Fossil Gen 5 Smartwatch");
+		product.setProductImageSource("assets/fossilwatch.jpg");
+		product.setProductPrice(23000);
+		product.setProductDescription("Fossil Gen 5 Garrett Touchscreen Smartwatch with Speaker. Heart Rate & Activity Tracking using Google Fit; Built-in GPS for distance tracking; Swimproof design 5ATM; responses from Google Assistant");
 
 		System.out.println(controller.addProduct(product));
 	}

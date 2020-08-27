@@ -132,8 +132,8 @@ public class Controller {
 
 		}
 	}
-
-	public CustomerInfo updateCustomer(CustomerInfo customerInfo) {
+	@RequestMapping(path = "/updateCustomer", method = RequestMethod.POST)
+	public CustomerInfo updateCustomer(@RequestBody CustomerInfo customerInfo) {
 		return customerService.updateCustomer(customerInfo);
 	}
 
@@ -148,7 +148,9 @@ public class Controller {
 		return customerService.activateEmiCard(customerId);
 	}
 
-	public boolean payMyEmi(int customerId) {
+
+	@RequestMapping(path = "/payMyEmi", method = RequestMethod.POST)
+	public boolean payMyEmi(@RequestBody int customerId) {
 		return customerService.payMyEmi(customerId);
 	}
 
@@ -262,5 +264,6 @@ public class Controller {
 		return 0;
 			
 	}
+
 
 }

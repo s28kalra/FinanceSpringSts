@@ -177,9 +177,11 @@ public class CustomerService implements CustomerServiceInterface {
 		transaction.setAmount(amoutWithoutCharge * (1 + processingPercentage));
 		transaction.setNoOfEmisLeft(transaction.getEmiTenure());
 
+		int transactionId = customerRepo.buyAProductOnEmi(transaction, emiCard);
 		emailService.sendTransactionEmail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail(),
-				product.getProductName());
-		return customerRepo.buyAProductOnEmi(transaction, emiCard);
+				product.getProductName(), transactionId);
+		
+		return transactionId;
 	}
 
 	@Transactional

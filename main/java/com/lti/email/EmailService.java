@@ -39,7 +39,7 @@ public class EmailService {
 			otpMap.put(email, Integer.toString(otp));
 			return otp;
 		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
 
 		return 0;
@@ -69,7 +69,7 @@ public class EmailService {
 			return true;
 		}
 		}catch (Exception e) {
-			e.printStackTrace();
+
 		}
 		return false;
 	}
@@ -89,13 +89,14 @@ public class EmailService {
 		return false;
 	}
 
-	public boolean sendTransactionEmail(String customerFirstName, String email, String productName) {
+	public boolean sendTransactionEmail(String customerFirstName, String email, String productName, int transactionId) {
 		try {
 			message.setFrom(this.senderEmail);
 			message.setTo(email);
 			message.setSubject("Transaction Complete");
 			message.setText("Thank You " + customerFirstName + "" + 
-			"\nYour Product "+productName+" has been succcessfully placed");
+			"\nYour Product "+productName+" has been succcessfully placed"
+					+ "\nYour Transaction Id is "+transactionId);
 			mailSender.send(message);
 			return true;
 		} catch (Exception e) {
