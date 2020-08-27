@@ -18,6 +18,7 @@ import com.lti.dto.EmiCardDto;
 import com.lti.dto.EmiTransactionDto;
 import com.lti.dto.LoginDto;
 import com.lti.dto.StatisticsDate;
+import com.lti.dto.ValidateAnOtp;
 import com.lti.enums.StatusType;
 import com.lti.exception.AdminException;
 import com.lti.exception.CustomerServiceException;
@@ -54,7 +55,7 @@ public class Controller {
 		return adminService.updateAdmin(admin);
 	}
 
-	@RequestMapping(path="/viewAdminProfile", method = RequestMethod.POST)
+	@RequestMapping(path = "/viewAdminProfile", method = RequestMethod.POST)
 	public Admin findAdminById(@RequestBody int adminId) {
 		return adminService.findAdminById(adminId);
 	}
@@ -64,7 +65,7 @@ public class Controller {
 		return adminService.addProduct(product);
 	}
 
-	@RequestMapping(path="/validateCustomerAndIssueEmiCard" , method = RequestMethod.POST)
+	@RequestMapping(path = "/validateCustomerAndIssueEmiCard", method = RequestMethod.POST)
 	public EmiCard validateCustomerAndIssueEmiCard(@RequestBody int customerId) {
 		return adminService.validateCustomerAndIssueEmiCard(customerId);
 	}
@@ -77,7 +78,7 @@ public class Controller {
 		return adminService.activateExistingCustomerEmiCard(customerId);
 	}
 
-	@RequestMapping(path="/viewAllCustomers", method = RequestMethod.GET)
+	@RequestMapping(path = "/viewAllCustomers", method = RequestMethod.GET)
 	public List<CustomerInfo> viewAllCustomers() {
 		return adminService.viewAllCustomers();
 	}
@@ -151,7 +152,7 @@ public class Controller {
 	public boolean payMyEmi(@RequestBody int customerId) {
 		return customerService.payMyEmi(customerId);
 	}
-	
+
 	@PostMapping("/calculateStatistics")
 	public Statistics calculateStatistics(@RequestBody StatisticsDate statisticsDate) {
 		return adminService.calculateStatistics(statisticsDate);
@@ -166,28 +167,26 @@ public class Controller {
 	public List<EmiTransaction> getListOfTransactionsOfCustomer(@RequestBody int customerId) {
 		return customerService.getListOfTransactionsOfCustomer(customerId);
 	}
-	
+
 	@RequestMapping(path = "/getCardDetails", method = RequestMethod.POST)
 	public EmiCardDto getCardDetails(@RequestBody int customerId) {
 		EmiCardDto cardDto = new EmiCardDto();
-		CustomerInfo customerInfo =  customerService.findCustomerById(customerId);
-		if(customerInfo==null)
-		{
+		CustomerInfo customerInfo = customerService.findCustomerById(customerId);
+		if (customerInfo == null) {
 			return null;
 		}
 		EmiCard emiCard = customerInfo.getEmiCard();
 		BeanUtils.copyProperties(emiCard, cardDto);
-		if(customerInfo.getCustomerLastName()==null)
-		{ 
-			cardDto.setCustomerName(customerInfo.getCustomerFirstName()); 
-		}
-		else 
-		{
-		cardDto.setCustomerName(customerInfo.getCustomerFirstName()+" "+customerInfo.getCustomerLastName());
+		if (customerInfo.getCustomerLastName() == null) {
+			cardDto.setCustomerName(customerInfo.getCustomerFirstName());
+		} else {
+			cardDto.setCustomerName(customerInfo.getCustomerFirstName() + " " + customerInfo.getCustomerLastName());
 		}
 		cardDto.setCardType(customerInfo.getCardType());
-		cardDto.setCardNumber(emiCard.getCardNumberStart().substring(0,4)+" "+emiCard.getCardNumberStart().substring(4,8)+" "
-		+String.valueOf(emiCard.getCardNumber()).substring(0,4)+" "+String.valueOf(emiCard.getCardNumber()).substring(4,8));
+		cardDto.setCardNumber(
+				emiCard.getCardNumberStart().substring(0, 4) + " " + emiCard.getCardNumberStart().substring(4, 8) + " "
+						+ String.valueOf(emiCard.getCardNumber()).substring(0, 4) + " "
+						+ String.valueOf(emiCard.getCardNumber()).substring(4, 8));
 		return cardDto;
 	}
 
@@ -239,10 +238,31 @@ public class Controller {
 			return adminLoginStatus;
 		}
 	}
-	
+
 	@RequestMapping(path = "/buyAProductOnEmi", method = RequestMethod.POST)
 	public int buyAProductOnEmi(@RequestBody Checkout checkout) {
 		return customerService.buyAProductOnEmi(checkout);
 	}
-	
+
+	@PostMapping("/forgotPassword")
+	public String forgotPassword(@RequestBody String email) {
+		String status = "";
+		CustomerInfo customerInfo = customerService.forgotPassword(email);
+		if (customerInfo == null)
+			status = "Invalid_Email";
+		else
+			status = "Hi " + customerInfo.getCustomerFirstName();
+		return status;
+	}
+
+	@PostMapping("/validateAnOtp")
+	public int validateAnOtp(@RequestBody ValidateAnOtp validateAnOtp) {
+		int id=customerService.validateAnOtp(validateAnOtp.getEmail(), validateAnOtp.getOtp());
+		if(id>0)
+			return id;
+		return 0;
+			
+	}
+
+
 }
