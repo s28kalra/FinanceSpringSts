@@ -14,7 +14,8 @@ public class SmsService {
 	String senderId = "SMSIND";
 
 	public boolean sendRegisterSms(String customerFirstName, String number) {
-
+		String apiKey = "NQnBE6K2WjeuZvOwloIXUSDbpAHmysf39hYF1r4GdcViJ8C0qg2klpDwMcIYT8ndPgV54FNzyQSZsuet";
+		String senderId = "SMSIND";
 		String message = "ThankYou " + customerFirstName + " for registering with Easy Credit\n"
 				+ "Hope you do not find any Inconvienence";
 		try {
@@ -23,6 +24,8 @@ public class SmsService {
 
 			String myUrl = "https://www.fast2sms.com/dev/bulk?authorization=" + this.apiKey + "&sender_id=" + this.senderId
 					+ "&message=" + message + "&language=english&route=p&numbers=" + number;
+
+			System.out.println(myUrl);
 
 			URL url = new URL(myUrl);
 

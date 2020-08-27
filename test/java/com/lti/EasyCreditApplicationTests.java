@@ -43,13 +43,17 @@ class EasyCreditApplicationTests {
 	public void addNewAdmin() {
 		Admin admin= new Admin();
 
-		admin.setAdminId(10670502);
-		admin.setAdminName("Sakshi");
-		admin.setAdminPassword("Sakshi@1234");
+//		admin.setAdminId(10670502);
+//		admin.setAdminName("Sakshi");
+//		admin.setAdminPassword("Sakshi@1234");
+		
+		admin.setAdminId(10670514);
+		admin.setAdminName("Krishna");
+		admin.setAdminPassword("Krish@1234");
 
-		admin.setAdminId(10670454);
-		admin.setAdminName("Shivam");
-		admin.setAdminPassword("Shivam@1234");
+//		admin.setAdminId(10670454);
+//		admin.setAdminName("Shivam");
+//		admin.setAdminPassword("Shivam@1234");
 
 		System.out.println(controller.addNewAdmin(admin));
 	}

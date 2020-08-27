@@ -131,7 +131,6 @@ public class Controller {
 
 	@RequestMapping(path = "/viewProfile", method = RequestMethod.POST)
 	public CustomerInfo findCustomerById(@RequestBody int customerId) {
-
 		return customerService.findCustomerById(customerId);
 	}
 
