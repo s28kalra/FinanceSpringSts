@@ -43,7 +43,7 @@ public class CustomerService implements CustomerServiceInterface {
 			customerInfo.setIsValidCustomer(0); // initially 0
 			int id = 0;
 			emailService.sendRegisterEmail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail());
-//			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
+			smsService.sendRegisterSms(customerInfo.getCustomerFirstName(), customerInfo.getCustomerMobile());
 			id = customerRepo.addNewCustomer(customerInfo);
 			return id;
 		}
@@ -83,7 +83,7 @@ public class CustomerService implements CustomerServiceInterface {
 			else
 				customerInfo.getEmiCard().setJoiningFees(1000);
 
-			customerRepo.updateCustomer(customerInfo);
+			customerInfo=customerRepo.updateCustomer(customerInfo);
 
 			return true;
 		}
@@ -97,40 +97,32 @@ public class CustomerService implements CustomerServiceInterface {
 
 		// if not matching with the start key of gold or titanium then return
 		// false;
-		if (!(s1.equals("10012002") || s1.equals("30034004"))) {
-			System.out.println("Card starting number doesn't match with gold or titanium");
+		if (!(s1.equals("10012002") || s1.equals("30034004"))) 
 			return 0;
-		}
 
 		String s2 = checkout.getCardNumber().substring(8, 16);
 		int cardNumber = 0;
 		try {
 			cardNumber = Integer.valueOf(s2);
 		} catch (NumberFormatException e) {
-			System.out.println("Number format Exception " + s2);
 			return 0;
 		}
 		EmiCard emiCard = new EmiCard();
 		emiCard = adminRepo.findEmiCardByCardNumber(cardNumber);
 
-		if (emiCard == null || emiCard.getCardStatus() == false) {
-			System.out.println("either card is not available or card is not active");
+		if (emiCard == null || emiCard.getCardStatus() == false) 
 			return 0;
-		}
 
 		// if cvv or expiry month or expiry year doesn't match then return false
 		if (emiCard.getCardCvv() != checkout.getCvv()
 				|| emiCard.getCardExpiry().getMonthValue() != checkout.getExpiryMonth()
 				|| emiCard.getCardExpiry().getYear() != checkout.getExpiryYear()) {
-			System.out.println("cvv or expiry month or expiry year doesn't match");
 			return 0;
 		}
 
 		CustomerInfo customerInfo = emiCard.getCustomerInfo();
-		if (customerInfo.getIsValidCustomer() <= 0) {
-			System.out.println("Not a valid customer");
+		if (customerInfo.getIsValidCustomer() <= 0) 
 			return 0;
-		}
 
 		String name = customerInfo.getCustomerFirstName() + customerInfo.getCustomerLastName();
 		name = name.replaceAll(" ", "").toLowerCase();
@@ -144,10 +136,8 @@ public class CustomerService implements CustomerServiceInterface {
 			if (name.indexOf(a[i]) >= 0)
 				break;
 		}
-		if (i >= a.length) {
-			System.out.println("Not a valid Card Holder Name");
+		if (i >= a.length) 
 			return 0;
-		}
 
 		double processingPercentage = 0; // processing Percentage
 		if (s1.equals("10012002"))
@@ -160,10 +150,9 @@ public class CustomerService implements CustomerServiceInterface {
 		double amoutWithoutCharge = 0;
 		amoutWithoutCharge = product.getProductPrice() * checkout.getProductQuantity();
 
-		if (amoutWithoutCharge * (1 + processingPercentage) > emiCard.getCardBalance()) {
-			System.out.println("Not Sufficient Balance");
+		if (amoutWithoutCharge * (1 + processingPercentage) > emiCard.getCardBalance()) 
 			return 0;
-		}
+		
 
 		EmiTransaction transaction = new EmiTransaction();
 		transaction.setCustomerInfo(findCustomerById(checkout.getCustomerId()));
@@ -199,7 +188,6 @@ public class CustomerService implements CustomerServiceInterface {
 				}
 
 				int payingEmis = (int) (emiCard.getAmountToBePaid() / sum);
-				System.out.println("Paying emis " + payingEmis);
 				for (EmiTransaction transaction : transactions) {
 					transaction.setNoOfEmisLeft(transaction.getNoOfEmisLeft() - payingEmis);
 					if (transaction.getNoOfEmisLeft() == 0) {
@@ -210,6 +198,7 @@ public class CustomerService implements CustomerServiceInterface {
 				}
 				emiCard.setCardBalance(emiCard.getCardBalance() + sum * payingEmis);
 				emiCard.setAmountToBePaid(0);
+				emailService.sendEmiPayMail(customerInfo.getCustomerFirstName(), customerInfo.getCustomerEmail(), emiCard.getCardBalance());
 				return true;
 			}
 		}

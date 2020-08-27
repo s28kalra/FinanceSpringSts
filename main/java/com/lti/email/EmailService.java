@@ -106,7 +106,22 @@ public class EmailService {
 		return false;
 	}
 	
-	
+	public boolean sendEmiPayMail(String name, String email, double balance) {
+		try {
+			message.setFrom(this.senderEmail);
+			message.setTo(email);
+			message.setSubject("Emi Paid");
+			message.setText("ThankYou "+name+" for paying your EMI "
+					+ "\nYour remaining card Balance is "+balance+""
+							+ "\nThanks For using Easy Credit");
+			mailSender.send(message);
+			return true;
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	} 
 	
 	
 }

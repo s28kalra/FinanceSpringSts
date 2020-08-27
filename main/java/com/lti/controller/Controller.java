@@ -70,14 +70,6 @@ public class Controller {
 		return adminService.validateCustomerAndIssueEmiCard(customerId);
 	}
 
-	public CustomerInfo deactivateACustomer(int customerId) {
-		return adminService.deactivateACustomer(customerId);
-	}
-
-	public CustomerInfo activateExistingCustomerEmiCard(int customerId) {
-		return adminService.activateExistingCustomerEmiCard(customerId);
-	}
-
 	@RequestMapping(path = "/viewAllCustomers", method = RequestMethod.GET)
 	public List<CustomerInfo> viewAllCustomers() {
 		return adminService.viewAllCustomers();
@@ -177,6 +169,8 @@ public class Controller {
 			return null;
 		}
 		EmiCard emiCard = customerInfo.getEmiCard();
+		if(emiCard==null)
+			return null;
 		BeanUtils.copyProperties(emiCard, cardDto);
 		if (customerInfo.getCustomerLastName() == null) {
 			cardDto.setCustomerName(customerInfo.getCustomerFirstName());

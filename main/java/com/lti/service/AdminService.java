@@ -81,7 +81,6 @@ public class AdminService implements AdminServiceInterface {
 		if (customerInfo != null) {
 			if (customerInfo.getEmiCard() != null) {
 				customerInfo.getEmiCard().setCardStatus(false);
-//				customerRepo.updateCustomer(customerInfo);
 			}
 			return customerInfo;
 		}
@@ -93,7 +92,6 @@ public class AdminService implements AdminServiceInterface {
 		CustomerInfo customerInfo = customerRepo.findCustomerById(customerId);
 		if (customerInfo != null && customerInfo.getIsValidCustomer() == 1) {
 			customerInfo.getEmiCard().setCardStatus(true);
-//			adminRepo.updateEmiCard(customerInfo.getEmiCard());
 			return customerInfo;
 		}
 		return null;
@@ -104,7 +102,6 @@ public class AdminService implements AdminServiceInterface {
 		CustomerInfo customerInfo = customerRepo.findCustomerById(customerId);
 		if (customerInfo != null) {
 			customerInfo.setIsValidCustomer(-1);
-//			customerRepo.updateCustomer(customerInfo);
 			return customerInfo;
 		}
 		return null;
@@ -153,7 +150,7 @@ public class AdminService implements AdminServiceInterface {
 		if (admin == null) {
 			throw new AdminException("Admin not registered");
 		} else if (!admin.getAdminPassword().equals(adminPassword)) {
-			throw new CustomerServiceException("Incorrect email or password");
+			throw new AdminException("Incorrect Admin Id or password");
 		}
 		return admin;
 	}
