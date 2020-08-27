@@ -1,6 +1,7 @@
 package com.lti.repository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -143,6 +144,17 @@ public class CustomerRepo implements CustomerRepositoryInterface {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		return null;
+	}
+
+	@Override
+	public CustomerInfo findCustomerByEmail(String email) {
+		String sql="select c from CustomerInfo c where c.customerEmail=:email";
+		Query query = em.createQuery(sql);
+		query.setParameter("email", email);
+		List<CustomerInfo> list= query.getResultList();
+		if(list.size()>0)
+			return list.get(0);
 		return null;
 	}
 	

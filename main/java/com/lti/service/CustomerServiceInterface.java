@@ -25,5 +25,9 @@ public interface CustomerServiceInterface {
 	CustomerInfo loginCustomer(String customerEmail, String customerPassword);
 
 	List<EmiTransaction> viewCardTransactions(int customerId);
+	
+	CustomerInfo forgotPassword(String email);
+	
+	int validateAnOtp(String email, String otp);
 
 }

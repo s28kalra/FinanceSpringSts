@@ -14,6 +14,7 @@ import com.lti.controller.Controller;
 import com.lti.dto.EmiCardDto;
 import com.lti.dto.LoginDto;
 import com.lti.dto.StatisticsDate;
+import com.lti.email.EmailService;
 import com.lti.model.Admin;
 import com.lti.model.Checkout;
 import com.lti.model.CustomerInfo;
@@ -34,6 +35,9 @@ class EasyCreditApplicationTests {
 	
 	@Autowired
 	AdminRepositoryInterface adminRepo;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	@Test
 	public void addNewAdmin() {
@@ -257,5 +261,23 @@ class EasyCreditApplicationTests {
 	public void viewCardTransactions(){
 		System.out.println(controller.viewCardTransactions(10103));
 	}
+	
+	@Test
+	public void sendRegisterEmail(){
+		System.out.println(emailService.sendRegisterEmail("Sagar", "sagarkalra03@gmail.com"));
+	}
+	
+	@Test 
+	public void sendOtpEmail() {
+		int otp=emailService.sendOtpEmail("sagarkalra03@gmail.com");
+		System.out.println(otp);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }
