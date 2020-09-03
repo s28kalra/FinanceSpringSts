@@ -123,5 +123,19 @@ public class EmailService {
 		return false;
 	} 
 	
-	
+	public boolean sendBillEmail(String name, String email, double amount) {
+		try {
+			message.setFrom(this.senderEmail);
+			message.setTo(email);
+			message.setSubject("Bill Generated");
+			message.setText("Hey "+name+" your bill of Rs. "+amount+" has been generated for current Month"
+					+ "\nPlease visit Easy Credit to pay your bill");
+			mailSender.send(message);
+			return true;
+		} catch (Exception e) {
+
+		}
+
+		return false;
+	}
 }

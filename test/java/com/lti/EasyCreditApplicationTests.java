@@ -94,10 +94,6 @@ class EasyCreditApplicationTests {
 
 	}
 	
-	@Test
-	public void deactivateACustomer(){
-		System.out.println(controller.deactivateACustomer(10107));
-	}
 	
 	@Test
 	public void viewAllCustomers(){
@@ -109,11 +105,6 @@ class EasyCreditApplicationTests {
 	@Test
 	public void rejectACustomer(){
 		System.out.println(controller.rejectACustomer(10103));
-	}
-	
-	@Test
-	public void activateExistingCustomerEmiCard(){
-		System.out.println(controller.activateExistingCustomerEmiCard(10103));
 	}
 	
 	@Test

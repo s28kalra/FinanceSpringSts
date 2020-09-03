@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lti.dto.StatisticsDate;
+import com.lti.email.EmailService;
 import com.lti.exception.AdminException;
 import com.lti.exception.CustomerServiceException;
 import com.lti.model.Admin;
@@ -27,6 +28,9 @@ public class AdminService implements AdminServiceInterface {
 
 	@Autowired
 	private CustomerRepositoryInterface customerRepo;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public int addNewAdmin(Admin admin) {
 		return adminRepo.addNewAdmin(admin);
@@ -116,7 +120,13 @@ public class AdminService implements AdminServiceInterface {
 	}
 
 	public boolean generateBill() {
-		return adminRepo.generateBill();
+		boolean bill= adminRepo.generateBill();
+		List<EmiCard> cards=adminRepo.getAllEmiCards();
+		for(EmiCard e: cards) {
+			CustomerInfo c= e.getCustomerInfo();
+			emailService.sendBillEmail(c.getCustomerFirstName(), c.getCustomerEmail(), Math.ceil(e.getAmountToBePaid()));
+		}
+		return bill;
 	}
 
 	@Override

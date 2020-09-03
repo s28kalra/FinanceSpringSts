@@ -130,8 +130,9 @@ public class AdminRepository implements AdminRepositoryInterface {
 	@Transactional
 	public boolean generateBill() {
 		try {
-			String sql = "update EmiCard e set e.amountToBePaid=e.amountToBePaid*1.02 + e.emiPerMonth";
+			String sql = "update EmiCard e set e.amountToBePaid=e.amountToBePaid*1.02 + e.emiPerMonth where e.cardStatus=:t";
 			Query query = em.createQuery(sql);
+			query.setParameter("t", true);
 			int noOfRowsAffected = query.executeUpdate();
 			if (noOfRowsAffected > 0)
 				return true;
@@ -181,6 +182,19 @@ public class AdminRepository implements AdminRepositoryInterface {
 //			e.printStackTrace();
 		}
 		return (double) 0;
+	}
+
+	@Override
+	public List<EmiCard> getAllEmiCards() {
+		try {
+			Query query = em.createQuery("select e from EmiCard e where e.cardStatus=:t",
+					EmiCard.class);
+			query.setParameter("t", true);
+			return query.getResultList();
+		} catch (DataAccessException e) {
+//			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
